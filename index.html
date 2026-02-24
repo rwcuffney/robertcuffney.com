@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robert Cuffney – Convergence Map</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .card {
+    width: 900px;
+    background: #0d0d14;
+    border: 1px solid #2a2a3a;
+    padding: 52px 48px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 44px;
+  }
+
+  .header-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 34px;
+    font-weight: 600;
+    color: #f0ede6;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .header-title {
+    font-size: 10px;
+    font-weight: 500;
+    color: #c9a84c;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  .header-divider {
+    width: 60px;
+    height: 1px;
+    background: #c9a84c;
+    margin: 16px auto 0;
+    opacity: 0.6;
+  }
+
+  /* Venn container */
+  .venn-container {
+    position: relative;
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .venn-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Circles */
+  .circle-group { pointer-events: none; }
+
+  /* Tag labels inside circles */
+  .tag-list {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .tag {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #d0ccc4;
+    white-space: nowrap;
+    opacity: 0.85;
+  }
+
+  .tag.gold { color: #c9a84c; font-weight: 600; }
+
+  /* Center label */
+  .center-label {
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .center-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #f0ede6;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  /* Credentials bar */
+  .creds-bar {
+    margin-top: 36px;
+    border-top: 1px solid #1e1e2e;
+    padding-top: 28px;
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .cred-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .cred-icon {
+    width: 28px;
+    height: 28px;
+    border: 1px solid #c9a84c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #c9a84c;
+  }
+
+  .cred-label {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #888;
+    text-align: center;
+    max-width: 80px;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="header">
+    <div class="header-name">Robert W. Cuffney</div>
+    <div class="header-title">Legal AI Leadership &nbsp;·&nbsp; Attorney &nbsp;·&nbsp; Master of Information Systems</div>
+    <div class="header-divider"></div>
+  </div>
+
+  <div class="venn-container">
+    <svg class="venn-svg" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="gradLeft" cx="40%" cy="50%">
+          <stop offset="0%" stop-color="#1a2a3a" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#0d1520" stop-opacity="0.7"/>
+        </radialGradient>
+        <radialGradient id="gradRight" cx="60%" cy="50%">
+          <stop offset="0%" stop-color="#2a1a0a" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#1a0d05" stop-opacity="0.7"/>
+        </radialGradient>
+        <radialGradient id="gradTop" cx="50%" cy="30%">
+          <stop offset="0%" stop-color="#1a2a1a" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#0d1a0d" stop-opacity="0.7"/>
+        </radialGradient>
+        <radialGradient id="gradCenter" cx="50%" cy="50%">
+          <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.15"/>
+          <stop offset="100%" stop-color="#c9a84c" stop-opacity="0.05"/>
+        </radialGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Three circles -->
+      <!-- Legal Expertise – left -->
+      <circle cx="290" cy="205" r="160" fill="url(#gradLeft)" stroke="#2a4a6a" stroke-width="1.5" opacity="0.95"/>
+      <!-- Technical Depth – right -->
+      <circle cx="510" cy="205" r="160" fill="url(#gradRight)" stroke="#6a3a1a" stroke-width="1.5" opacity="0.95"/>
+      <!-- AI Implementation – top center -->
+      <circle cx="400" cy="100" r="160" fill="url(#gradTop)" stroke="#2a5a2a" stroke-width="1.5" opacity="0.95"/>
+
+      <!-- Center glow -->
+      <ellipse cx="400" cy="185" rx="65" ry="65" fill="url(#gradCenter)" filter="url(#glow)"/>
+
+      <!-- Circle Labels -->
+      <!-- Legal -->
+      <text x="195" y="230" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#7ab3d4" letter-spacing="2" text-transform="uppercase">LEGAL</text>
+      <text x="195" y="248" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#7ab3d4" letter-spacing="2">EXPERTISE</text>
+
+      <!-- Legal items -->
+      <text x="198" y="272" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0b8cc" letter-spacing="1">8 YRS · PROSECUTOR</text>
+      <text x="198" y="287" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0b8cc" letter-spacing="1">JURIS DOCTORATE</text>
+      <text x="198" y="302" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0b8cc" letter-spacing="1">NC BAR · LICENSED ATTORNEY</text>
+      <text x="198" y="317" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0b8cc" letter-spacing="1">20+ JURY TRIALS</text>
+
+
+      <!-- Technical -->
+      <text x="604" y="230" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#d4956a" letter-spacing="2">TECHNICAL</text>
+      <text x="604" y="248" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#d4956a" letter-spacing="2">DEPTH</text>
+
+      <text x="604" y="272" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">MSIS · NORTHWESTERN 4.0</text>
+      <text x="604" y="287" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">PYTHON · SQL · JAVA</text>
+
+      <text x="604" y="302" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">API · ETL · STREAMLIT</text>
+      <text x="604" y="317" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">ML: SKLEARN · PYTORCH</text>
+      <text x="604" y="332" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">NOSQL · AWS RDS</text>
+
+      <!-- AI Implementation (top) -->
+      <text x="400" y="30" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#7ab47a" letter-spacing="2">AI IMPLEMENTATION</text>
+      <text x="400" y="52" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0cca0" letter-spacing="1">LEXISNEXIS · LLM QUALITY CONTROL</text>
+      <text x="400" y="66" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0cca0" letter-spacing="1">MCGUIREWOODS · 1000+ HARVEY AI LICENSES</text>
+      <text x="400" y="80" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0cca0" letter-spacing="1">CLEARY GOTTLIEB · AI KNOWLEDGE ENGINEER</text>
+
+      <!-- Center convergence label -->
+      <text x="400" y="170" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="13" font-weight="700" fill="#c9a84c" letter-spacing="3" filter="url(#glow)">LEGAL AI</text>
+      <text x="400" y="186" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="13" font-weight="700" fill="#c9a84c" letter-spacing="3" filter="url(#glow)">LEADERSHIP</text>
+
+      <!-- Intersection labels -->
+      <!-- Law + Tech (bottom center between the two) -->
+      <text x="400" y="330" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#8a8a9a" letter-spacing="1.5">LEGAL TECHNOLOGY</text>
+      <text x="400" y="343" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#8a8a9a" letter-spacing="1.5">INTEGRATION</text>
+
+      <!-- Law + AI -->
+      <text x="294" y="130" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#8a9a8a" letter-spacing="1.2">ETHICAL AI</text>
+      <text x="294" y="143" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#8a9a8a" letter-spacing="1.2">GOVERNANCE</text>
+
+      <!-- Tech + AI -->
+      <text x="506" y="130" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#9a8a7a" letter-spacing="1.2">ENTERPRISE AI</text>
+      <text x="506" y="143" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#9a8a7a" letter-spacing="1.2">ARCHITECTURE</text>
+    </svg>
+  </div>
+
+  <!-- Credentials Bar -->
+  <div class="creds-bar">
+    <div class="cred-item">
+      <div class="cred-icon">✦</div>
+      <div class="cred-label">MSIS Northwestern University 4.0 GPA</div>
+    </div>
+    <div class="cred-item">
+      <div class="cred-icon">✦</div>
+      <div class="cred-label">NC Licensed Attorney</div>
+    </div>
+    <div class="cred-item">
+      <div class="cred-icon">✦</div>
+      <div class="cred-label">Anthropic / Claude API Certified</div>
+    </div>
+    <div class="cred-item">
+      <div class="cred-icon">✦</div>
+      <div class="cred-label">Stanford Legal AI Certificate</div>
+    </div>
+    
+  </div>
+
+</div>
+</body>
+</html>
