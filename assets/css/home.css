@@ -89,7 +89,7 @@ body {
    ---------------------------------------------------------- */
 .venn-container {
   position: relative;
-  height: 420px;
+  height: 480px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -173,10 +173,10 @@ body {
     letter-spacing: 2px;
   }
 
-  /* Let the SVG scale naturally to its 2:1 viewBox ratio */
+  /* Let the SVG scale naturally to its viewBox ratio (800×475) */
   .venn-container {
     height: auto;
-    aspect-ratio: 2 / 1;
+    aspect-ratio: 800 / 475;
   }
 
   /* Tighten credentials bar */
