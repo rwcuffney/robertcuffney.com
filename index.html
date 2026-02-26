@@ -9,14 +9,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/home.css">
+<!-- If JS is disabled, make all elements visible immediately -->
+<noscript><style>.will-animate { opacity: 1 !important; }</style></noscript>
 </head>
 <body>
 <div class="card">
 
   <div class="header">
-    <div class="header-name">Robert W. Cuffney</div>
-    <div class="header-title">Legal AI Leadership &nbsp;·&nbsp; Attorney &nbsp;·&nbsp; Master of Information Systems</div>
-    <div class="header-divider"></div>
+    <div class="header-name will-animate">Robert W. Cuffney</div>
+    <div class="header-title will-animate">Legal AI Leadership &nbsp;·&nbsp; Attorney &nbsp;·&nbsp; Master of Information Systems</div>
+    <div class="header-divider will-animate"></div>
   </div>
 
   <div class="venn-container">
@@ -45,84 +47,91 @@
       </defs>
 
       <!-- Three circles -->
-      <!-- Legal Expertise – left -->
-      <circle cx="290" cy="205" r="160" fill="url(#gradLeft)" stroke="#2a4a6a" stroke-width="1.5" opacity="0.95"/>
-      <!-- Technical Depth – right -->
-      <circle cx="510" cy="205" r="160" fill="url(#gradRight)" stroke="#6a3a1a" stroke-width="1.5" opacity="0.95"/>
-      <!-- AI Implementation – top center -->
-      <circle cx="400" cy="100" r="160" fill="url(#gradTop)" stroke="#2a5a2a" stroke-width="1.5" opacity="0.95"/>
+      <g id="g-circles" class="will-animate">
+        <!-- Legal Expertise – left -->
+        <circle cx="290" cy="205" r="160" fill="url(#gradLeft)" stroke="#2a4a6a" stroke-width="1.5" opacity="0.95"/>
+        <!-- Technical Depth – right -->
+        <circle cx="510" cy="205" r="160" fill="url(#gradRight)" stroke="#6a3a1a" stroke-width="1.5" opacity="0.95"/>
+        <!-- AI Implementation – top center -->
+        <circle cx="400" cy="100" r="160" fill="url(#gradTop)" stroke="#2a5a2a" stroke-width="1.5" opacity="0.95"/>
+      </g>
 
       <!-- Center glow -->
-      <ellipse cx="400" cy="185" rx="65" ry="65" fill="url(#gradCenter)" filter="url(#glow)"/>
+      <g id="g-glow" class="will-animate">
+        <ellipse cx="400" cy="185" rx="65" ry="65" fill="url(#gradCenter)" filter="url(#glow)"/>
+      </g>
 
-      <!-- Circle Labels -->
-      <!-- Legal -->
-      <text x="195" y="230" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#7ab3d4" letter-spacing="2" text-transform="uppercase">LEGAL</text>
-      <text x="195" y="248" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#7ab3d4" letter-spacing="2">EXPERTISE</text>
+      <!-- AI Implementation label (top) -->
+      <g id="g-label-ai" class="will-animate">
+        <text x="400" y="30" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#7ab47a" letter-spacing="2">AI IMPLEMENTATION</text>
+        <text x="400" y="52" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0cca0" letter-spacing="1">LEXISNEXIS · LLM QUALITY CONTROL</text>
+        <text x="400" y="66" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0cca0" letter-spacing="1">MCGUIREWOODS · 1000+ HARVEY AI LICENSES</text>
+        <text x="400" y="80" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0cca0" letter-spacing="1">CLEARY GOTTLIEB · AI KNOWLEDGE ENGINEER</text>
+      </g>
 
-      <!-- Legal items -->
-      <text x="198" y="272" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0b8cc" letter-spacing="1">8 YRS · PROSECUTOR</text>
-      <text x="198" y="287" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0b8cc" letter-spacing="1">JURIS DOCTORATE</text>
-      <text x="198" y="302" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0b8cc" letter-spacing="1">NC BAR · LICENSED ATTORNEY</text>
-      <text x="198" y="317" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0b8cc" letter-spacing="1">20+ JURY TRIALS</text>
+      <!-- Legal Expertise label (left) -->
+      <g id="g-label-legal" class="will-animate">
+        <text x="195" y="230" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#7ab3d4" letter-spacing="2" text-transform="uppercase">LEGAL</text>
+        <text x="195" y="248" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#7ab3d4" letter-spacing="2">EXPERTISE</text>
+        <text x="198" y="272" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0b8cc" letter-spacing="1">8 YRS · PROSECUTOR</text>
+        <text x="198" y="287" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0b8cc" letter-spacing="1">JURIS DOCTORATE</text>
+        <text x="198" y="302" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0b8cc" letter-spacing="1">NC BAR · LICENSED ATTORNEY</text>
+        <text x="198" y="317" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0b8cc" letter-spacing="1">20+ JURY TRIALS</text>
+      </g>
 
-
-      <!-- Technical -->
-      <text x="604" y="230" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#d4956a" letter-spacing="2">TECHNICAL</text>
-      <text x="604" y="248" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#d4956a" letter-spacing="2">DEPTH</text>
-
-      <text x="604" y="272" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">MSIS · NORTHWESTERN 4.0</text>
-      <text x="604" y="287" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">PYTHON · SQL · JAVA</text>
-
-      <text x="604" y="302" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">API · ETL · STREAMLIT</text>
-      <text x="604" y="317" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">ML: SKLEARN · PYTORCH</text>
-      <text x="604" y="332" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">NOSQL · AWS RDS</text>
-
-      <!-- AI Implementation (top) -->
-      <text x="400" y="30" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#7ab47a" letter-spacing="2">AI IMPLEMENTATION</text>
-      <text x="400" y="52" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0cca0" letter-spacing="1">LEXISNEXIS · LLM QUALITY CONTROL</text>
-      <text x="400" y="66" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0cca0" letter-spacing="1">MCGUIREWOODS · 1000+ HARVEY AI LICENSES</text>
-      <text x="400" y="80" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#a0cca0" letter-spacing="1">CLEARY GOTTLIEB · AI KNOWLEDGE ENGINEER</text>
+      <!-- Technical Depth label (right) -->
+      <g id="g-label-tech" class="will-animate">
+        <text x="604" y="230" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#d4956a" letter-spacing="2">TECHNICAL</text>
+        <text x="604" y="248" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" font-weight="700" fill="#d4956a" letter-spacing="2">DEPTH</text>
+        <text x="604" y="272" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">MSIS · NORTHWESTERN 4.0</text>
+        <text x="604" y="287" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">PYTHON · SQL · JAVA</text>
+        <text x="604" y="302" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">API · ETL · STREAMLIT</text>
+        <text x="604" y="317" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">ML: SKLEARN · PYTORCH</text>
+        <text x="604" y="332" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" fill="#ccb0a0" letter-spacing="1">NOSQL · AWS RDS</text>
+      </g>
 
       <!-- Center convergence label -->
-      <text x="400" y="170" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="13" font-weight="700" fill="#c9a84c" letter-spacing="3" filter="url(#glow)">LEGAL AI</text>
-      <text x="400" y="186" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="13" font-weight="700" fill="#c9a84c" letter-spacing="3" filter="url(#glow)">LEADERSHIP</text>
+      <g id="g-label-center" class="will-animate">
+        <text x="400" y="170" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="13" font-weight="700" fill="#c9a84c" letter-spacing="3" filter="url(#glow)">LEGAL AI</text>
+        <text x="400" y="186" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="13" font-weight="700" fill="#c9a84c" letter-spacing="3" filter="url(#glow)">LEADERSHIP</text>
+      </g>
 
       <!-- Intersection labels -->
-      <!-- Law + Tech (bottom center between the two) -->
-      <text x="400" y="330" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#8a8a9a" letter-spacing="1.5">LEGAL TECHNOLOGY</text>
-      <text x="400" y="343" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#8a8a9a" letter-spacing="1.5">INTEGRATION</text>
-
-      <!-- Law + AI -->
-      <text x="294" y="130" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#8a9a8a" letter-spacing="1.2">ETHICAL AI</text>
-      <text x="294" y="143" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#8a9a8a" letter-spacing="1.2">GOVERNANCE</text>
-
-      <!-- Tech + AI -->
-      <text x="506" y="130" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#9a8a7a" letter-spacing="1.2">ENTERPRISE AI</text>
-      <text x="506" y="143" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#9a8a7a" letter-spacing="1.2">ARCHITECTURE</text>
+      <g id="g-label-intersections" class="will-animate">
+        <!-- Law + Tech (bottom center) -->
+        <text x="400" y="330" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#8a8a9a" letter-spacing="1.5">LEGAL TECHNOLOGY</text>
+        <text x="400" y="343" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#8a8a9a" letter-spacing="1.5">INTEGRATION</text>
+        <!-- Law + AI -->
+        <text x="294" y="130" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#8a9a8a" letter-spacing="1.2">ETHICAL AI</text>
+        <text x="294" y="143" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#8a9a8a" letter-spacing="1.2">GOVERNANCE</text>
+        <!-- Tech + AI -->
+        <text x="506" y="130" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#9a8a7a" letter-spacing="1.2">ENTERPRISE AI</text>
+        <text x="506" y="143" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="7.5" fill="#9a8a7a" letter-spacing="1.2">ARCHITECTURE</text>
+      </g>
     </svg>
   </div>
 
   <!-- Credentials Bar -->
   <div class="creds-bar">
-    <a href="credentials/northwestern.html" class="cred-item">
+    <a href="credentials/northwestern.html" class="cred-item will-animate">
       <div class="cred-icon">✦</div>
       <div class="cred-label">MSIS Northwestern University 4.0 GPA</div>
     </a>
-    <a href="credentials/nc-bar.html" class="cred-item">
+    <a href="credentials/nc-bar.html" class="cred-item will-animate">
       <div class="cred-icon">✦</div>
       <div class="cred-label">NC Licensed Attorney</div>
     </a>
-    <a href="credentials/anthropic-certified.html" class="cred-item">
+    <a href="credentials/anthropic-certified.html" class="cred-item will-animate">
       <div class="cred-icon">✦</div>
       <div class="cred-label">Anthropic / Claude API Certified</div>
     </a>
-    <a href="credentials/stanford-legal-ai.html" class="cred-item">
+    <a href="credentials/stanford-legal-ai.html" class="cred-item will-animate">
       <div class="cred-icon">✦</div>
       <div class="cred-label">Stanford Legal AI Certificate</div>
     </a>
   </div>
 
 </div>
+<script src="assets/js/animations.js"></script>
 </body>
 </html>
