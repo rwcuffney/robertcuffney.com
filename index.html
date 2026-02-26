@@ -4,167 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Robert Cuffney – Convergence Map</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: #0a0a0f;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    font-family: 'Montserrat', sans-serif;
-  }
-
-  .card {
-    width: 900px;
-    background: #0d0d14;
-    border: 1px solid #2a2a3a;
-    padding: 52px 48px 48px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #c9a84c, transparent);
-  }
-
-  /* Header */
-  .header {
-    text-align: center;
-    margin-bottom: 44px;
-  }
-
-  .header-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 34px;
-    font-weight: 600;
-    color: #f0ede6;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-  }
-
-  .header-title {
-    font-size: 10px;
-    font-weight: 500;
-    color: #c9a84c;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    margin-top: 8px;
-  }
-
-  .header-divider {
-    width: 60px;
-    height: 1px;
-    background: #c9a84c;
-    margin: 16px auto 0;
-    opacity: 0.6;
-  }
-
-  /* Venn container */
-  .venn-container {
-    position: relative;
-    height: 420px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .venn-svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  /* Circles */
-  .circle-group { pointer-events: none; }
-
-  /* Tag labels inside circles */
-  .tag-list {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    align-items: center;
-  }
-
-  .tag {
-    font-size: 9px;
-    font-weight: 500;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: #d0ccc4;
-    white-space: nowrap;
-    opacity: 0.85;
-  }
-
-  .tag.gold { color: #c9a84c; font-weight: 600; }
-
-  /* Center label */
-  .center-label {
-    position: absolute;
-    text-align: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-  }
-
-  .center-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: #f0ede6;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    line-height: 1.4;
-  }
-
-  /* Credentials bar */
-  .creds-bar {
-    margin-top: 36px;
-    border-top: 1px solid #1e1e2e;
-    padding-top: 28px;
-    display: flex;
-    justify-content: center;
-    gap: 32px;
-    flex-wrap: wrap;
-  }
-
-  .cred-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .cred-icon {
-    width: 28px;
-    height: 28px;
-    border: 1px solid #c9a84c;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    color: #c9a84c;
-  }
-
-  .cred-label {
-    font-size: 8px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: #888;
-    text-align: center;
-    max-width: 80px;
-    line-height: 1.4;
-  }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/home.css">
 </head>
 <body>
 <div class="card">
@@ -261,23 +105,22 @@
 
   <!-- Credentials Bar -->
   <div class="creds-bar">
-    <div class="cred-item">
+    <a href="credentials/northwestern.html" class="cred-item">
       <div class="cred-icon">✦</div>
       <div class="cred-label">MSIS Northwestern University 4.0 GPA</div>
-    </div>
-    <div class="cred-item">
+    </a>
+    <a href="credentials/nc-bar.html" class="cred-item">
       <div class="cred-icon">✦</div>
       <div class="cred-label">NC Licensed Attorney</div>
-    </div>
-    <div class="cred-item">
+    </a>
+    <a href="credentials/anthropic-certified.html" class="cred-item">
       <div class="cred-icon">✦</div>
       <div class="cred-label">Anthropic / Claude API Certified</div>
-    </div>
-    <div class="cred-item">
+    </a>
+    <a href="credentials/stanford-legal-ai.html" class="cred-item">
       <div class="cred-icon">✦</div>
       <div class="cred-label">Stanford Legal AI Certificate</div>
-    </div>
-    
+    </a>
   </div>
 
 </div>

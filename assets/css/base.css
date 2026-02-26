@@ -1,0 +1,27 @@
+/* ============================================================
+   base.css — shared reset + card shell
+   Loaded by all pages on the site.
+   ============================================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0a0a0f;
+  font-family: 'Montserrat', sans-serif;
+  color: #f0ede6;
+}
+
+.card {
+  background: #0d0d14;
+  border: 1px solid #2a2a3a;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+}
