@@ -10,11 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
      Hero load-in — staggered on arrival, same feel as homepage
   ---------------------------------------------------------- */
   const heroSequence = [
-    { selector: '.institution-logo', delay: 0,   cls: 'hero-fade-up'  },
-    { selector: '.cred-icon-lg',     delay: 180, cls: 'hero-fade-up'  },
-    { selector: '.cred-title',       delay: 340, cls: 'hero-fade-up'  },
-    { selector: '.cred-subtitle',    delay: 480, cls: 'hero-fade-up'  },
-    { selector: '.hero-divider',     delay: 610, cls: 'hero-scale-x'  },
+    { selector: '.cred-icon-lg',  delay: 100, cls: 'hero-fade-up'  },
+    { selector: '.cred-title',    delay: 260, cls: 'hero-fade-up'  },
+    { selector: '.cred-subtitle', delay: 400, cls: 'hero-fade-up'  },
+    { selector: '.hero-divider',  delay: 530, cls: 'hero-scale-x'  },
   ];
 
   heroSequence.forEach(({ selector, delay, cls }) => {
