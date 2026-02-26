@@ -1,19 +1,19 @@
 /* ============================================================
-   scroll-reveal.js — Intersection Observer scroll animations
-   Shared by all credential detail pages.
-   No dependencies. Pure vanilla JS.
+   scroll-reveal.js — hero load-in stagger for credential pages
+   Scroll animations are handled entirely by CSS scroll-driven
+   animations (animation-timeline: view()) — no JS needed there.
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ----------------------------------------------------------
-     Hero load-in — staggered on arrival, same feel as homepage
+     Hero load-in — staggered on page arrival
   ---------------------------------------------------------- */
   const heroSequence = [
-    { selector: '.cred-icon-lg',  delay: 100, cls: 'hero-fade-up'  },
-    { selector: '.cred-title',    delay: 260, cls: 'hero-fade-up'  },
-    { selector: '.cred-subtitle', delay: 400, cls: 'hero-fade-up'  },
-    { selector: '.hero-divider',  delay: 530, cls: 'hero-scale-x'  },
+    { selector: '.cred-icon-lg',  delay: 100, cls: 'hero-fade-up' },
+    { selector: '.cred-title',    delay: 260, cls: 'hero-fade-up' },
+    { selector: '.cred-subtitle', delay: 400, cls: 'hero-fade-up' },
+    { selector: '.hero-divider',  delay: 530, cls: 'hero-scale-x' },
   ];
 
   heroSequence.forEach(({ selector, delay, cls }) => {
@@ -21,22 +21,5 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!el) return;
     setTimeout(() => el.classList.add(cls), delay);
   });
-
-  /* ----------------------------------------------------------
-     Scroll-triggered sections — fire once as each enters view
-  ---------------------------------------------------------- */
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const delay = parseInt(entry.target.dataset.delay || 0);
-      setTimeout(() => entry.target.classList.add('scroll-visible'), delay);
-      observer.unobserve(entry.target); // animate only once
-    });
-  }, {
-    threshold: 0.08,
-    rootMargin: '0px 0px -40px 0px', // trigger slightly before fully in view
-  });
-
-  document.querySelectorAll('.scroll-hidden').forEach(el => observer.observe(el));
 
 });
