@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>What You Can Do Now · AI in Prosecution</title>
+<meta name="description" content="Part 4: moving Claude for Legal skills into Copilot, the Copilot Studio version of the prosecutor-analysis design, and using AI to check your own work.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Libre+Caslon+Text:ital,wght@0,400;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+.borrow{display:grid;gap:.5em}
+.borrow .row{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.4fr);gap:.6em 1em;align-items:center;background:var(--ink-2);border:1px solid var(--line);border-radius:12px;padding:.8em 1.1em}
+.borrow .skill{font-family:var(--mono);color:var(--hl);font-size:.9em}
+.borrow .arr{color:var(--fog)}
+.borrow .use{font-weight:700;letter-spacing:-.01em}
+@media (max-width:600px){.borrow .row{grid-template-columns:1fr}.borrow .arr{display:none}}
+.move{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8em}
+.move .card{position:relative}
+.move .card:not(:last-child)::after{content:"➔";position:absolute;right:-.85em;top:1.4em;color:var(--fog);font-weight:700}
+.move ul{margin:0;padding-left:1.1em;color:var(--fog);font-size:.9em;line-height:1.45;display:grid;gap:.25em}
+.move ul b{color:var(--snow)}
+@media (max-width:860px){.move{grid-template-columns:1fr}.move .card:not(:last-child)::after{content:"↓";right:auto;left:1.4em;top:auto;bottom:-1.1em}}
+.rules5{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:.7em}
+.rule5{background:var(--day-2);border-radius:14px;padding:1em 1.1em;text-align:left;cursor:pointer;display:grid;gap:.3em;border:1.5px solid transparent;transition:border-color .2s;min-width:0}
+.rule5:hover{border-color:var(--day-ink)}
+.rule5[aria-expanded="true"]{border-color:var(--hl);background:linear-gradient(160deg,#FFF6C8,var(--day-2) 60%)}
+.rule5 .n{font-family:var(--mono);font-size:.72em;letter-spacing:.14em;text-transform:uppercase;color:var(--day-mute)}
+.rule5 .t{font-weight:800;font-size:1.1em;letter-spacing:-.02em;line-height:1.15}
+.rule5 .d{color:var(--day-mute);font-size:.9em;line-height:1.4;display:none}
+.rule5[aria-expanded="true"] .d{display:block}
+.rule5 .d code{font-family:var(--mono);background:var(--day);border-radius:4px;padding:.05em .3em}
+.studio .tbl td:first-child{font-family:var(--mono);font-size:.9em;color:var(--hl)}
+.day .studio .tbl td:first-child{color:var(--day-ink)}
+.order{list-style:none;margin:0;padding:0;display:grid;gap:.5em;counter-reset:o}
+.order li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1em;align-items:center;background:var(--ink-2);border:1px solid var(--line);border-radius:12px;padding:.8em 1em;font-weight:600}
+.order li::before{counter-increment:o;content:counter(o);width:2em;height:2em;border-radius:50%;background:var(--hl);color:var(--ink);display:grid;place-items:center;font-weight:800;font-family:var(--mono)}
+
+/* sellers */
+.errs{display:grid;gap:.7em}
+.err{background:var(--day-2);border-radius:16px;overflow:hidden}
+.err summary{list-style:none;cursor:pointer;padding:1.1em 1.3em;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:.2em 1em;align-items:center}
+.err summary::-webkit-details-marker{display:none}
+.err summary .stamp{transform:none;font-size:.7em;grid-row:span 2}
+.err summary .t{font-weight:800;font-size:1.15em;letter-spacing:-.02em}
+.err summary .c{font-family:var(--serif);font-style:italic;color:var(--day-mute);font-size:.95em;grid-column:2}
+.err summary .chev{font-family:var(--mono);color:var(--day-ink);grid-row:span 2;transition:transform .25s}
+.err[open] summary .chev{transform:rotate(45deg)}
+.err .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid rgba(11,17,27,.1)}
+.err .col{padding:1em 1.3em;display:grid;gap:.4em;align-content:start;font-size:.92em;line-height:1.45;min-width:0}
+.err .col + .col{border-left:1px solid rgba(11,17,27,.1)}
+.err .col .k{font-family:var(--mono);font-size:.72em;letter-spacing:.14em;text-transform:uppercase;color:var(--day-mute)}
+.err .col.fix{background:var(--green-soft)}
+.err .col i{font-style:italic}
+@media (max-width:760px){.err .cols{grid-template-columns:1fr}.err .col + .col{border-left:0;border-top:1px solid rgba(11,17,27,.1)}}
+.tools2 .tile .v{font-size:clamp(1.3rem,1.8vw,1.7rem)}
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero wrap" id="top">
+  <div class="part-tag"><i>4</i>What You Can Do Now</div>
+  <h1 style="margin-top:.5em">With the tools you <em>actually have.</em></h1>
+  <p class="lede">Most offices have, at best, a licensed Copilot tenant. That is enough to borrow the <b>logic</b> of the best legal skills, and enough to use AI to check your own work.</p>
+</header>
+
+<!-- SKILLS TO COPILOT -->
+<section class="block wrap" id="copilot" aria-label="From Claude skills to Copilot">
+  <div class="sec-head">
+    <div class="eyebrow">From Claude skills to Copilot</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">Copilot can’t install a skill. It can follow one.</h2>
+    <p>Claude for Legal publishes its skills as plain-text instructions: about 100 open-source skills on GitHub (Apache 2.0), each a readable SKILL.md file. Of the three big legal offerings, only Claude publishes its skills this way. None ships a prosecution workflow, but the litigation and verification skills port well because they are mostly written instructions.</p>
+  </div>
+  <div class="split">
+    <div>
+      <div class="eyebrow" style="margin-bottom:1em">Skills worth borrowing</div>
+      <div class="borrow">
+        <div class="row rv" data-self data-range="0,0.25"><span class="skill">chronology</span><span class="arr">→</span><span class="use">Case chronology, every entry sourced</span></div>
+        <div class="row rv" data-self data-range="0.03,0.28"><span class="skill">claim-chart</span><span class="arr">→</span><span class="use">Offense elements chart with strength ratings</span></div>
+        <div class="row rv" data-self data-range="0.06,0.31"><span class="skill">deposition-prep</span><span class="arr">→</span><span class="use">Direct / cross examination outline</span></div>
+        <div class="row rv" data-self data-range="0.09,0.34"><span class="skill">privilege-log-review</span><span class="arr">→</span><span class="use">Brady / Giglio discovery log</span></div>
+        <div class="row rv" data-self data-range="0.12,0.37"><span class="skill">research-start</span><span class="arr">→</span><span class="use">Research roadmap of leads, each tagged “unverified”</span></div>
+      </div>
+      <p class="mute" style="margin-top:1em;font-size:.88em">Start in the <code>litigation-legal</code> folder at <a href="https://github.com/anthropics/claude-for-legal" target="_blank" rel="noopener">github.com/anthropics/claude-for-legal</a>.</p>
+    </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom:1em">How to move a skill</div>
+      <div class="move">
+        <div class="card rv" data-self data-range="0,0.25"><span class="k">1</span><h3>Find it in Claude</h3><p>Open the SKILL.md. It reads like a procedure, because it is one.</p></div>
+        <div class="card rv" data-self data-range="0.03,0.28"><span class="k">2</span><h3>Keep the logic</h3><ul><li><b>Keep:</b> the rules, the step order, the output table.</li><li><b>Drop:</b> file-system steps, connectors, scheduled agents.</li></ul></div>
+        <div class="card rv" data-self data-range="0.06,0.31"><span class="k">3</span><h3>Rebuild it in Copilot</h3><ul><li>A saved prompt for one-off tasks</li><li>An Agent Builder agent (about 8,000 characters of instructions)</li><li>Copilot in Word for open drafts</li></ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIVE RULES -->
+<div class="day">
+<section class="block wrap" id="rules" aria-label="Five rules that travel">
+  <div class="sec-head">
+    <div class="eyebrow">Five rules that travel into any Copilot prompt</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">Keep these, whatever tool you paste them into.</h2>
+    <p>Click a rule for the sentence to put in the prompt.</p>
+  </div>
+  <div class="rules5">
+    <button class="rule5" type="button" aria-expanded="false"><span class="n">Rule 1</span><span class="t">Limit it to the file.</span><span class="d"><code>Use only the attached documents.</code> No outside facts, no general knowledge about the case.</span></button>
+    <button class="rule5" type="button" aria-expanded="false"><span class="n">Rule 2</span><span class="t">Tag the source.</span><span class="d">Every fact says where it came from, or is marked <code>[unverified]</code>.</span></button>
+    <button class="rule5" type="button" aria-expanded="false"><span class="n">Rule 3</span><span class="t">Flag, don’t decide.</span><span class="d">The attorney makes the Brady, redaction, and disclosure calls. The tool raises the question.</span></button>
+    <button class="rule5" type="button" aria-expanded="false"><span class="n">Rule 4</span><span class="t">Prefer the recoverable error.</span><span class="d">Over-flag for attorney review. A false alarm costs minutes; a missed item can’t be undone.</span></button>
+    <button class="rule5" type="button" aria-expanded="false"><span class="n">Rule 5</span><span class="t">Quote only what’s in front of it.</span><span class="d">No quotation marks without the exact passage and a pinpoint cite.</span></button>
+  </div>
+  <div class="callout red" style="margin-top:clamp(20px,3vh,32px)"><span class="k">Before any of this</span><span>Use only the office’s licensed, enterprise-protected Copilot tenant for case material, never a personal account. Confirm with IT or your AOC contact what data Copilot can see.</span></div>
+</section>
+</div>
+
+<!-- COPILOT STUDIO -->
+<section class="block wrap studio" id="studio" aria-label="Copilot Studio">
+  <div class="sec-head">
+    <div class="eyebrow">The same design in Copilot Studio</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">One parent agent and two connected agents.</h2>
+    <p>The three-skill design from Part 3 maps onto Copilot Studio’s multi-agent pattern without changing the instructions.</p>
+  </div>
+  <div class="split">
+    <div class="tblwrap rv" data-self data-range="0,0.3">
+      <table class="tbl">
+        <thead><tr><th>In Claude</th><th>In Copilot Studio</th></tr></thead>
+        <tbody>
+          <tr><td>Prosecutor’s analysis skill</td><td>Parent agent holding the same instructions</td></tr>
+          <tr><td>General Statutes skill</td><td>Child agent grounded on a SharePoint library of statute files</td></tr>
+          <tr><td>Pattern Jury Instructions skill</td><td>Child agent grounded on a second library of instruction files</td></tr>
+          <tr><td>One skill calling another</td><td>Parent hands off to a connected agent by its description</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom:1em">Build order</div>
+      <ol class="order">
+        <li class="rv" data-self data-range="0,0.25">Load the files into two SharePoint libraries</li>
+        <li class="rv" data-self data-range="0.03,0.28">Create a child agent for each library</li>
+        <li class="rv" data-self data-range="0.06,0.31">Create the parent agent with the analysis instructions</li>
+        <li class="rv" data-self data-range="0.09,0.34">Connect both child agents and test on a real report</li>
+      </ol>
+      <div class="eyebrow" style="margin:1.4em 0 .6em">What to check</div>
+      <ul class="mute" style="margin:0;padding-left:1.1em;font-size:.92em;line-height:1.5;display:grid;gap:.3em">
+        <li>Give each child agent its own library; Microsoft advises against sharing sources.</li>
+        <li>Describe each child agent clearly; the parent routes by its description.</li>
+        <li>Test that retrieval returns element text verbatim.</li>
+      </ul>
+      <p class="mute" style="margin-top:1em;font-size:.8em">Source: Microsoft Learn, Copilot Studio multi-agent patterns and knowledge sources documentation (2026).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ANALYZE YOUR OWN WORK -->
+<div class="day">
+<section class="block wrap" id="own-work" aria-label="Analyze your own work">
+  <div class="sec-head">
+    <div class="eyebrow">Analyze your own work</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">Claude found my prior mistakes.</h2>
+    <p>I ran a 404(b) motion I wrote as an ADA through two tools: a <b>tabular review</b> skill that builds a table of every authority cited, and a <b>CourtListener</b> connector that pulls each opinion to verify the citation. The motion was <i>State v. Sellers</i> (2013): human-drafted, granted, and upheld on appeal, with each of these errors in it.</p>
+  </div>
+  <div class="tiles tools2" style="margin-bottom:clamp(28px,5vh,52px)">
+    <div class="tile rv" data-self data-range="0,0.25"><span class="k">01 · Claude for Legal</span><span class="v">corporate-legal: tabular-review</span><p>Builds an Excel table from a set of data. Similar tabular reviews are available in most legal AI products.</p></div>
+    <div class="tile rv" data-self data-range="0.03,0.28"><span class="k">02 · CourtListener</span><span class="v">Verify the case law</span><p>Uses the CourtListener connector to pull opinions and check citations, when possible.</p></div>
+  </div>
+  <div class="eyebrow" style="margin-bottom:1em">Four serious citation errors, and what fixes them</div>
+  <div class="errs">
+    <details class="err rv" data-self data-range="0,0.25">
+      <summary><span class="stamp">Misattributed quote</span><span class="t">State v. Williams</span><span class="c">A real case, a real-sounding quote, the wrong source.</span><span class="chev">+</span></summary>
+      <div class="cols">
+        <div class="col"><span class="k">What the brief said</span><p>The Supreme Court “has held only that ‘the trial court must find the evidence to be substantial.’” <i>Williams</i>, 307 N.C. 452, 454 (1983).</p></div>
+        <div class="col"><span class="k">What the source shows</span><p>That sentence is from <i>State v. Haskins</i>, a Court of Appeals case (104 N.C. App. at 680). <i>Williams</i> is a heroin-possession sufficiency case with no 404(b) discussion.</p></div>
+        <div class="col fix"><span class="k">The fix</span><p>Attribute the quote to <i>Haskins</i>. For the Supreme Court standard, cite <i>State v. Stager</i>, 329 N.C. 278, 303 (1991).</p></div>
+      </div>
+    </details>
+    <details class="err rv" data-self data-range="0.03,0.28">
+      <summary><span class="stamp">Case holds the opposite</span><span class="t">State v. Ward</span><span class="c">Cited “See also” for a rule the court rejected on those facts.</span><span class="chev">+</span></summary>
+      <div class="cols">
+        <div class="col"><span class="k">What the brief said</span><p>Cited “See also” for the rule that a dismissed prior charge does not bar 404(b) evidence of the act.</p></div>
+        <div class="col"><span class="k">What the source shows</span><p><i>Ward</i>’s prior charges were dismissed by the judge for insufficient evidence. The court treated that as an acquittal, excluded the evidence, and ordered a new trial.</p></div>
+        <div class="col fix"><span class="k">The fix</span><p>Cut it, or cite “But see” and distinguish: the <i>Sellers</i> prior was a DA dismissal, which <i>Flaugher</i> allows.</p></div>
+      </div>
+    </details>
+    <details class="err rv" data-self data-range="0.06,0.31">
+      <summary><span class="stamp">Wrong cite for the reversal</span><span class="t">State v. Elliott</span><span class="c">Quoting a dissent without the history that made it the law.</span><span class="chev">+</span></summary>
+      <div class="cols">
+        <div class="col"><span class="k">What the brief said</span><p>Quotes Judge Lewis’s dissent at 288, then cites the Supreme Court’s reversal as “<i>Id.</i> at 644.”</p></div>
+        <div class="col"><span class="k">What the source shows</span><p>“<i>Id.</i>” points back to the Court of Appeals opinion; the reversal is a separate case at 352 N.C. 663. The first dissent quote is at 287.</p></div>
+        <div class="col fix"><span class="k">The fix</span><p>137 N.C. App. 282, 287–88 (2000) (Lewis, J., dissenting), <i>rev’d per curiam</i>, 352 N.C. 663, 664 (2000).</p></div>
+      </div>
+    </details>
+    <details class="err rv" data-self data-range="0.09,0.34">
+      <summary><span class="stamp">Wrong year</span><span class="t">State v. Coffey</span><span class="c">Easy to miss. Easy for opposing counsel or the court to catch.</span><span class="chev">+</span></summary>
+      <div class="cols">
+        <div class="col"><span class="k">What the brief said</span><p>326 N.C. 268, 278 (1980), cited twice for the “rule of inclusion.”</p></div>
+        <div class="col"><span class="k">What the source shows</span><p>Decided in 1990. The quote runs across pages 278–79, and the S.E.2d parallel is missing.</p></div>
+        <div class="col fix"><span class="k">The fix</span><p>326 N.C. 268, 278–79, 389 S.E.2d 48, 54 (1990).</p></div>
+      </div>
+    </details>
+  </div>
+  <div class="callout ink" style="margin-top:clamp(20px,3vh,32px)"><span class="k">Why it matters</span><span>These are the errors courts flag in AI-drafted briefs. People make them too. None of these would have been caught by checking that the case exists. They are caught only by reading the cited page.</span></div>
+  <p class="mute" style="margin-top:1em;font-size:.8em">Source: citations checked against opinion text on CourtListener, September 2026.</p>
+</section>
+</div>
+
+</main>
+<div id="pager"></div>
+<script src="site.js"></script>
+<script>
+(function(){
+  document.querySelectorAll('.rule5').forEach(function(b){
+    b.addEventListener('click', function(){ b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') !== 'true'); });
+  });
+})();
+</script>
+</body>
+</html>

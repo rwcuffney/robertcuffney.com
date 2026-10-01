@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI in Prosecution</title>
+<meta name="description" content="Companion site to a CLE for the North Carolina Conference of District Attorneys: what AI is, what the defense is doing with it, what it can do for prosecutors, and what can go wrong.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Libre+Caslon+Text:ital,wght@0,400;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+.hero{min-height:82svh}
+.hero .sub{font-family:var(--serif);font-style:italic;color:var(--fog);font-size:clamp(1.1rem,1.6vw + .4rem,1.9rem);margin-top:.6em}
+.cta{display:flex;gap:.8em;flex-wrap:wrap;margin-top:2.2em}
+.map{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(14px,1.6vw,24px);counter-reset:part}
+.map a{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.3em 1em;align-items:start;text-decoration:none;background:var(--ink-2);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.2vw,30px);transition:border-color .2s,transform .2s;min-width:0}
+.map a:hover{border-color:var(--hl);transform:translateY(-3px)}
+.map .circ{grid-row:span 3}
+.map .t{font-size:clamp(1.3rem,2vw,1.9rem);font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.map .d{color:var(--fog);font-size:.92em;line-height:1.4}
+.map .go{font-family:var(--mono);font-size:.76em;letter-spacing:.08em;text-transform:uppercase;color:var(--hl);margin-top:.6em}
+.map .pause{grid-column:1/-1;font-family:var(--mono);font-size:.8em;color:var(--fog);letter-spacing:.06em}
+
+/* show of hands */
+.hands{display:grid;gap:.8em;max-width:760px}
+.hand{text-align:left;display:grid;grid-template-columns:auto minmax(0,1fr);gap:.2em 1.1em;align-items:start;background:var(--day-2);border-radius:16px;padding:1.1em 1.3em;cursor:pointer;border:1.5px solid transparent;transition:border-color .2s}
+.hand:hover{border-color:var(--day-ink)}
+.hand .q{font-weight:800;font-size:clamp(1.1rem,1.6vw,1.5rem);letter-spacing:-.02em;line-height:1.15}
+.hand .a{grid-column:2;color:var(--day-mute);font-size:.92em;line-height:1.4}
+.hand .r{grid-column:2;font-family:var(--serif);font-style:italic;font-size:1em;margin-top:.5em;display:none;color:var(--day-ink);border-left:3px solid var(--hl);padding-left:.8em}
+.hand[data-open="true"] .r{display:block}
+.hand .circ{background:var(--day-ink);color:var(--day)}
+.hand[data-open="true"] .circ{background:var(--hl);color:var(--ink)}
+.hand .hint{grid-column:2;font-family:var(--mono);font-size:.72em;letter-spacing:.1em;text-transform:uppercase;color:var(--day-mute);margin-top:.5em}
+.hand[data-open="true"] .hint{display:none}
+.assume{margin-top:2em;max-width:70ch}
+
+/* plea */
+.plea{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(14px,1.6vw,24px)}
+.plea .card h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.25rem,1.9vw,1.9rem);letter-spacing:-.01em}
+.plea ul{margin:0;padding-left:1.1em;color:var(--fog);font-size:.93em;line-height:1.45;display:grid;gap:.3em}
+.ruling{margin-top:clamp(20px,3vh,32px)}
+
+/* about */
+.about{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,4vw,72px);align-items:start}
+.about h2{font-size:clamp(2rem,4.2vw,4rem);font-weight:900;letter-spacing:-.04em}
+.about .quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,1.4vw,1.4rem);color:var(--day-mute);margin-top:1em;max-width:40ch;line-height:1.4}
+.roles{margin-top:1.6em;display:grid;gap:.7em}
+.role{background:var(--day-2);border-radius:14px;padding:1em 1.2em;display:grid;gap:.15em}
+.role .k{font-family:var(--mono);font-size:.72em;letter-spacing:.14em;text-transform:uppercase;color:var(--day-mute)}
+.role .t{font-weight:800;font-size:1.1em;letter-spacing:-.02em}
+.role p{color:var(--day-mute);font-size:.9em;line-height:1.4}
+.path{list-style:none;margin:0;padding:0;display:grid;gap:0;border-left:2px solid rgba(11,17,27,.18);margin-left:.4em}
+.path li{position:relative;padding:.1em 0 1.2em 1.4em}
+.path li::before{content:"";position:absolute;left:-7px;top:.55em;width:12px;height:12px;border-radius:50%;background:var(--hl);border:2px solid var(--day)}
+.path .t{font-weight:800;letter-spacing:-.02em}
+.path p{color:var(--day-mute);font-size:.9em;line-height:1.4}
+.stat{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.2em 1em;align-items:baseline;margin-top:1.4em}
+.stat .big{font-size:clamp(2.6rem,5vw,4.6rem);font-weight:900;letter-spacing:-.05em;line-height:.9;grid-row:span 2}
+.stat .t{font-weight:800}
+.stat p{color:var(--day-mute);font-size:.9em}
+.contact{margin-top:1.6em;display:flex;gap:.6em;flex-wrap:wrap;align-items:center}
+.contact code{font-family:var(--mono);background:var(--day-2);border-radius:999px;padding:.45em .9em;font-size:.9em}
+.contact .copy{background:var(--day-ink);color:var(--day);border:0;border-radius:999px;padding:.45em .9em;font-family:var(--mono);font-size:.78em;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+@media (max-width:860px){.about{grid-template-columns:1fr;gap:28px}}
+</style>
+</head>
+<body>
+<main>
+
+<!-- HERO -->
+<header class="hero wrap" id="top">
+  <div class="eyebrow"><span class="dot" aria-hidden="true"></span>North Carolina Conference of District Attorneys · CLE · October 2026</div>
+  <h1>Why prosecutors should learn <em>AI.</em></h1>
+  <p class="sub">(Assuming it doesn’t kill us all first.)</p>
+  <p class="lede">Everything from the talk, in <b>six parts</b> you can come back to. Start at the beginning, or jump to the part you need.</p>
+  <div class="cta">
+    <a class="btn" href="other-side.html">Start with Part 1 →</a>
+    <a class="btn ghost" href="#parts">See all six parts</a>
+  </div>
+  <div class="hero-caption">Robert W. Cuffney · Legal Knowledge Engineer · Former Mecklenburg County ADA</div>
+</header>
+
+<!-- SIX PARTS -->
+<section class="block wrap" id="parts" aria-label="The six parts">
+  <div class="sec-head">
+    <div class="eyebrow">Today, in six parts</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">Where we’re going.</h2>
+    <p>This CLE is broad on purpose: what AI is, who is already using it against you, what it can do for a prosecutor, and the ways it goes wrong.</p>
+  </div>
+  <div class="map">
+    <a href="other-side.html" class="rv" data-self data-range="0,0.25"><span class="circ">1</span><span class="t">The Other Side</span><span class="d">What’s already on the defense table</span><span class="go">Open part 1 →</span></a>
+    <a href="landscape.html" class="rv" data-self data-range="0.03,0.28"><span class="circ">2</span><span class="t">The Landscape</span><span class="d">Who makes it, what it is, what’s beyond the model</span><span class="go">Open part 2 →</span></a>
+    <a href="what-it-can-do.html" class="rv" data-self data-range="0.06,0.31"><span class="circ">3</span><span class="t">What It Can Do</span><span class="d">Connectors, skills, projects. Prosecutor use cases.</span><span class="go">Open part 3 →</span></a>
+    <a href="what-you-can-do-now.html" class="rv" data-self data-range="0.09,0.34"><span class="circ">4</span><span class="t">What You Can Do Now</span><span class="d">With the tools you actually have</span><span class="go">Open part 4 →</span></a>
+    <a href="what-can-go-wrong.html" class="rv" data-self data-range="0.12,0.37"><span class="circ">5</span><span class="t">What Can Go Wrong</span><span class="d">Hallucinations, slop, privacy, brain rot</span><span class="go">Open part 5 →</span></a>
+    <a href="your-turn.html" class="rv" data-self data-range="0.15,0.4"><span class="circ">6</span><span class="t">Your Turn</span><span class="d">Questions, comments, ideas</span><span class="go">Open part 6 →</span></a>
+    <div class="pause">During the talk, I pause for questions at every section break.</div>
+  </div>
+</section>
+
+<!-- SHOW OF HANDS -->
+<div class="day">
+<section class="block wrap" id="hands" aria-label="Are you using AI today?">
+  <div class="sec-head">
+    <div class="eyebrow">Before we start</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">Are you using AI today?</h2>
+    <p>I open with three show-of-hands questions. Click each one to see what I expected the room to say.</p>
+  </div>
+  <div class="hands" id="hands-list">
+    <button class="hand" type="button" data-open="false" aria-expanded="false">
+      <span class="circ">1</span>
+      <span class="q">How many of you are using AI today?</span>
+      <span class="a">Any tool, any purpose.</span>
+      <span class="r">Expect most of the room.</span>
+      <span class="hint">Click to reveal</span>
+    </button>
+    <button class="hand" type="button" data-open="false" aria-expanded="false">
+      <span class="circ">2</span>
+      <span class="q">Has your office told you, in writing, what you’re allowed to do with AI?</span>
+      <span class="a">A policy, a memo, an email. Anything.</span>
+      <span class="r">Expect silence. Hold that thought for the privacy section in Part 5.</span>
+      <span class="hint">Click to reveal</span>
+    </button>
+    <button class="hand" type="button" data-open="false" aria-expanded="false">
+      <span class="circ">3</span>
+      <span class="q">Has anyone come across AI use by defense attorneys?</span>
+      <span class="a">A request to use it, or some other way the defense has used it.</span>
+      <span class="r">Take one story. Then go to Part 1.</span>
+      <span class="hint">Click to reveal</span>
+    </button>
+  </div>
+  <div class="assume">
+    <div class="callout ink"><span class="k">My assumption</span><span>You do not have access to enterprise AI. At most, some very limited Copilot. There is no official AI tool for prosecutors, and I built this CLE on that assumption.</span></div>
+  </div>
+</section>
+</div>
+
+<!-- PLEA -->
+<section class="block wrap" id="plea" aria-label="A plea">
+  <div class="sec-head">
+    <div class="eyebrow">Your Honor, I’d like to enter a plea</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">Guilty. Of not knowing exactly what I’m doing up here.</h2>
+    <p>I’ve been a prosecutor, I’ve studied ethical AI in prosecution, and I work on legal AI every day. I still don’t have all the answers, because nobody does.</p>
+  </div>
+  <div class="plea">
+    <div class="card rv" data-self data-range="0,0.25">
+      <span class="k">Mitigating factors</span>
+      <h3>There are no experts.</h3>
+      <p>AI changes drastically every few weeks. Anyone who tells you they have it figured out is describing last month.</p>
+    </div>
+    <div class="card rv" data-self data-range="0.04,0.29">
+      <span class="k">Request for relief</span>
+      <h3>Object loudly.</h3>
+      <ul>
+        <li>Tell me how your office actually handles discovery, charging, and trial prep.</li>
+        <li>Chime in with ideas and suggestions for ways to use AI.</li>
+        <li>Share what you’ve tried with AI, good or bad.</li>
+      </ul>
+    </div>
+    <div class="card hl rv" data-self data-range="0.08,0.33">
+      <span class="k">The court’s ruling</span>
+      <h3>We figure this out together.</h3>
+      <p>You know your offices, your dockets, and your judges far better than I do. If something here wouldn’t hold up in your courtroom, I want to hear it. <a href="your-turn.html">Part 6 tells you how.</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div class="day">
+<section class="block wrap" id="about" aria-label="About the presenter">
+  <div class="about">
+    <div>
+      <div class="eyebrow">Who am I, to talk about AI?</div>
+      <h2 class="rv" data-self data-range="-0.1,0.2" style="margin-top:.3em">Robert W. Cuffney</h2>
+      <p class="quote">“I help attorneys use legal AI by building workflows that automate or enhance their work product.”</p>
+      <div class="roles">
+        <div class="role rv" data-self data-range="0,0.25"><span class="k">Legal engineer</span><span class="t">Cleary Gottlieb Steen &amp; Hamilton</span><p>International law firm based in New York City. I build AI workflows that help attorneys automate or improve their work product.</p></div>
+        <div class="role rv" data-self data-range="0.04,0.29"><span class="k">Claude implementation</span><span class="t">Small-firm consulting</span><p>I work with small firms, mostly criminal defense, and teach them how to build Claude into their day-to-day operations.</p></div>
+      </div>
+      <div class="stat rv" data-self data-range="0.08,0.33">
+        <span class="big">8</span>
+        <span class="t">years in the courtroom</span>
+        <p>Assistant District Attorney, Mecklenburg County. Mostly domestic violence, plus the habitual felon team.</p>
+      </div>
+    </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom:1.2em">How I got here</div>
+      <ol class="path">
+        <li class="rv" data-self data-range="0,0.25"><span class="t">Mecklenburg County District Attorney’s Office</span><p>Eight years as an ADA.</p></li>
+        <li class="rv" data-self data-range="0.03,0.28"><span class="t">LexisNexis</span><p>Worked on the large language models behind Lexis+ AI legal research.</p></li>
+        <li class="rv" data-self data-range="0.06,0.31"><span class="t">McGuireWoods</span><p>AI Systems Analyst, about a year. Evaluated, piloted, and rolled out legal AI tools such as Harvey.</p></li>
+        <li class="rv" data-self data-range="0.09,0.34"><span class="t">Cleary Gottlieb</span><p>Legal engineer. Building AI workflows for attorneys firm-wide.</p></li>
+        <li class="rv" data-self data-range="0.12,0.37"><span class="t">M.S. Information Systems, Northwestern University</span><p>Thesis: <i>Ethically Implementing Generative AI in Prosecution</i> (2025). The prosecutor-analysis skill in Part 3 came out of that work.</p></li>
+      </ol>
+      <div class="eyebrow" style="margin-top:1em">Let’s stay in touch</div>
+      <div class="contact">
+        <code id="email">rwcuffney@gmail.com</code>
+        <button class="copy" type="button" id="copyEmail">Copy</button>
+        <a class="pill" href="https://www.linkedin.com/in/robertcuffney" target="_blank" rel="noopener">linkedin.com/in/robertcuffney ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+</main>
+<div id="pager"></div>
+<script src="site.js"></script>
+<script>
+(function(){
+  document.querySelectorAll('.hand').forEach(function(b){
+    b.addEventListener('click', function(){
+      var on = b.getAttribute('data-open') !== 'true';
+      b.setAttribute('data-open', on); b.setAttribute('aria-expanded', on);
+    });
+  });
+  var cp = document.getElementById('copyEmail');
+  cp.addEventListener('click', function(){
+    var t = document.getElementById('email').textContent;
+    function done(){ cp.textContent = 'Copied'; setTimeout(function(){ cp.textContent = 'Copy'; }, 1500); }
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done, fallback); } else fallback();
+    function fallback(){ var r = document.createRange(); r.selectNodeContents(document.getElementById('email')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+  });
+})();
+</script>
+</body>
+</html>

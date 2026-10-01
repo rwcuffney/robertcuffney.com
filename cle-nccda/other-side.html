@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Other Side · AI in Prosecution</title>
+<meta name="description" content="Part 1: what defense attorneys are already doing with AI, and whether a prosecutor can object.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Libre+Caslon+Text:ital,wght@0,400;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+/* courtroom demo */
+.court{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(20px,3vw,48px);align-items:start}
+.stage{display:grid;gap:.9em}
+.bubble{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.3em 1em;align-items:start;background:var(--day-2);border-radius:16px;padding:1em 1.2em;opacity:0;transform:translateY(10px);transition:opacity .4s,transform .4s}
+.bubble.on{opacity:1;transform:none}
+.bubble .who{font-family:var(--mono);font-size:.72em;letter-spacing:.14em;text-transform:uppercase;color:var(--day-mute);grid-column:1/-1}
+.bubble .av{width:2.4em;height:2.4em;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.85em;background:var(--day);color:var(--day-ink);flex:none}
+.bubble.bot .av{background:var(--ink);color:var(--hl)}
+.bubble .txt{font-family:var(--serif);font-size:clamp(1.05rem,1.4vw,1.4rem);line-height:1.4}
+.bubble.bot .txt{font-family:var(--sans);font-size:1em}
+.bubble.bot .txt b{color:var(--day-ink)}
+.bubble.bot{background:var(--ink);color:var(--snow)}
+.bubble.bot .who{color:var(--fog)}
+.bubble.bot .txt b{color:var(--hl)}
+.bubble.bot .cite{display:inline-block;margin-top:.5em;font-family:var(--mono);font-size:.78em;color:var(--fog)}
+.caret{display:inline-block;width:.08em;height:.9em;background:var(--hl);vertical-align:-.08em;margin-left:.04em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.ctl{display:flex;gap:.6em;flex-wrap:wrap;align-items:center}
+.ctl .btn.ghost{border-color:var(--day-ink)}
+.ctl .note{font-family:var(--mono);font-size:.72em;color:var(--day-mute);letter-spacing:.06em}
+.chat3{display:grid;gap:.7em;margin-top:1.4em}
+.chat3 .tile .v{font-size:clamp(1.2rem,1.7vw,1.6rem)}
+@media (max-width:860px){.court{grid-template-columns:1fr}}
+
+.why{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(14px,2vw,28px)}
+.why .card h3{font-size:clamp(1.5rem,2.4vw,2.4rem)}
+@media (max-width:760px){.why{grid-template-columns:1fr}}
+.objection{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(14px,2vw,28px)}
+.objection ul{margin:0;padding-left:1.1em;display:grid;gap:.5em;color:var(--fog);font-size:.95em;line-height:1.45}
+.objection ul b{color:var(--snow)}
+@media (max-width:760px){.objection{grid-template-columns:1fr}}
+.verdict{margin-top:clamp(28px,5vh,52px)}
+.verdict h3{font-size:clamp(1.6rem,3.4vw,3.2rem);font-weight:900;letter-spacing:-.04em;max-width:22ch}
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero wrap" id="top">
+  <div class="part-tag"><i>1</i>The Other Side</div>
+  <h1 style="margin-top:.5em">The defense is already using <em>AI.</em></h1>
+  <p class="lede">They are going to be faster, more thorough, and better prepared than they were last year. <b>This part is about what that looks like, and what you can do about it.</b></p>
+</header>
+
+<!-- WHY CARE -->
+<section class="block wrap" id="why" aria-label="Why this matters">
+  <div class="sec-head">
+    <div class="eyebrow">Why this matters</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">This CLE is going to be a bit of a tease.</h2>
+    <p>You have access to <b>so little</b>. There are rules about which accounts you can use, and we’ll get to them in Part 5. Without an enterprise account through AOC or the Conference, you’re not permitted to use AI for anything confidential, which is most of what you touch. So why care?</p>
+  </div>
+  <div class="why">
+    <div class="card alarm rv" data-self data-range="0,0.25">
+      <span class="k">Reason one</span>
+      <h3>Defense attorneys are using AI, and they are going to crush you.</h3>
+      <p>Not every defense attorney. But the ones who are will search, analyze, and synthesize a case faster than any office that isn’t.</p>
+    </div>
+    <div class="card hl rv" data-self data-range="0.04,0.29">
+      <span class="k">Reason two</span>
+      <h3>AI is coming, whether you like it or not.</h3>
+      <p>Enterprise tools for prosecutors will arrive. The offices that already understand what the tools do, and where they fail, will be the ones that use them safely.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHATBOT OVER THE CASE -->
+<div class="day">
+<section class="block wrap" id="chatbot" aria-label="A chatbot over the case">
+  <div class="sec-head">
+    <div class="eyebrow">What the defense is doing</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">A chatbot over the case.</h2>
+    <p>If I’m working with a criminal defense attorney, the first thing I tell them to do is <b>build a chatbot over their case</b>: load the discovery, and ask it questions. Press play to see why that matters in a courtroom.</p>
+  </div>
+  <div class="court">
+    <div>
+      <div class="ctl">
+        <button class="btn" type="button" id="play">▶ Imagine you’re in court</button>
+        <button class="btn ghost" type="button" id="reset" hidden>Reset</button>
+      </div>
+      <div class="chat3">
+        <div class="tile rv" data-self data-range="0,0.25"><span class="k">Search</span><span class="v">The whole file</span><p>Every report, statement, and supplement, asked in plain English.</p></div>
+        <div class="tile rv" data-self data-range="0.03,0.28"><span class="k">Analyze</span><span class="v">Contradictions on demand</span><p>“Did anyone describe this differently?” gets an answer with a page number.</p></div>
+        <div class="tile rv" data-self data-range="0.06,0.31"><span class="k">Synthesize</span><span class="v">Faster than they ever could</span><p>Chronologies, cross outlines, and impeachment lists in minutes, not weekends.</p></div>
+      </div>
+    </div>
+    <div class="stage" id="stage" aria-live="polite">
+      <div class="bubble" id="b1">
+        <span class="who">Witness, on direct</span>
+        <span class="av">W</span>
+        <span class="txt">“The car was red.”</span>
+      </div>
+      <div class="bubble" id="b2">
+        <span class="who">Defense attorney → case chatbot</span>
+        <span class="av">D</span>
+        <span class="txt">Didn’t Jane Doe say the car was a different color than red, somewhere in the discovery?</span>
+      </div>
+      <div class="bubble bot" id="b3">
+        <span class="who">Case chatbot</span>
+        <span class="av">AI</span>
+        <span class="txt"><span id="typed"></span><span class="caret" id="caret" hidden></span><span class="cite" id="cite" hidden>Source: initial police report, page 5</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- CAN YOU OBJECT -->
+<section class="block wrap" id="object" aria-label="Can you object?">
+  <div class="sec-head">
+    <div class="eyebrow">Can you object to the defense using AI?</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">Probably <span class="yl">not.</span></h2>
+  </div>
+  <div class="objection">
+    <div class="card rv" data-self data-range="0,0.25">
+      <span class="k">Why not</span>
+      <h3>Not much legal ground to stand on.</h3>
+      <ul>
+        <li>There is not a lot of legal ground to prevent them from using it.</li>
+        <li>It’s <b>their</b> responsibility to make sure they’re securing the data appropriately.</li>
+        <li>Most commercial contracts are sufficient to protect privilege and confidentiality.</li>
+      </ul>
+    </div>
+    <div class="card hl rv" data-self data-range="0.04,0.29">
+      <span class="k">So what do you do</span>
+      <h3>Catch what they get wrong.</h3>
+      <ul>
+        <li>Their bar card, their data-security obligation. Not yours.</li>
+        <li>Read their authority the way you’d read a pro se motion: <b>pull every cite.</b></li>
+        <li>Expect it in requests, motions, and cross. And expect it to be good.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="verdict rv" data-self data-range="0,0.3">
+    <h3>The question isn’t whether they can use it. It’s whether you’ll <span class="mark">recognize it</span> when they do.</h3>
+    <p class="mute" style="margin-top:1em;max-width:60ch">Part 5 shows what AI-assisted writing looks like when it goes wrong, including the tells that give it away. <a href="ai-slop.html">Spot the Slop</a> is a good place to practice.</p>
+  </div>
+</section>
+
+</main>
+<div id="pager"></div>
+<script src="site.js"></script>
+<script>
+(function(){
+  var play = document.getElementById('play'), reset = document.getElementById('reset');
+  var b1 = document.getElementById('b1'), b2 = document.getElementById('b2'), b3 = document.getElementById('b3');
+  var typed = document.getElementById('typed'), caret = document.getElementById('caret'), cite = document.getElementById('cite');
+  var ANSWER = 'Yes. Page 5 of the initial police report. She told an officer the car was blue.';
+  var timers = [];
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function clear(){ timers.forEach(clearTimeout); timers = []; }
+  function run(){
+    clear();
+    play.hidden = true; reset.hidden = false;
+    [b1,b2,b3].forEach(function(b){ b.classList.remove('on'); });
+    typed.textContent = ''; cite.hidden = true; caret.hidden = true;
+    later(function(){ b1.classList.add('on'); }, 100);
+    later(function(){ b2.classList.add('on'); }, 1500);
+    later(function(){ b3.classList.add('on'); caret.hidden = false; type(0); }, 3000);
+  }
+  function type(i){
+    if(i > ANSWER.length){ caret.hidden = true; cite.hidden = false; return; }
+    typed.textContent = ANSWER.slice(0, i);
+    later(function(){ type(i+1); }, 28);
+  }
+  play.addEventListener('click', run);
+  reset.addEventListener('click', function(){ clear(); [b1,b2,b3].forEach(function(b){ b.classList.remove('on'); }); typed.textContent=''; cite.hidden = true; caret.hidden = true; play.hidden = false; reset.hidden = true; });
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    [b1,b2,b3].forEach(function(b){ b.classList.add('on'); }); typed.textContent = ANSWER; cite.hidden = false; play.hidden = true;
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spot the Slop · AI in Prosecution</title>
+<meta name="description" content="A satirical, interactive field guide to AI slop for North Carolina prosecutors, written by committing every offense it describes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Libre+Caslon+Text:ital,wght@0,400;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<link rel="stylesheet" href="nav.css">
+<style>
+:root{
+  --ink:#0B111B;
+  --ink-2:#141C2A;
+  --ink-3:#1E2839;
+  --line:#2A3548;
+  --snow:#F1F3F7;
+  --fog:#98A3B6;
+  --paper:#FBFBF8;
+  --paper-ink:#1A2130;
+  --paper-rule:#D9DCE3;
+  --margin-red:#D9A8A3;
+  --hl:#F4D23A;
+  --red:#C9372C;
+  --red-soft:#F6DEDB;
+  --green:#2E8B57;
+  --green-soft:#DDF1E5;
+  --day:#ECEFF4;
+  --day-2:#FFFFFF;
+  --day-ink:#0B111B;
+  --day-mute:#566176;
+  --sans:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --serif:"Libre Caslon Text",Georgia,"Times New Roman",serif;
+  --mono:"Courier Prime","Courier New",Courier,monospace;
+  --gutter:clamp(16px,5vw,64px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--snow);font-family:var(--sans);font-size:clamp(16px,1.1vw + 10px,21px);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--hl);outline-offset:3px}
+.wrap{padding-inline:var(--gutter);max-width:1320px;margin-inline:auto}
+.eyebrow{font-family:var(--mono);font-size:.78em;letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
+h1,h2,h3{margin:0;text-wrap:balance;letter-spacing:-.025em;line-height:1.02}
+
+/* ---------- scroll engine hooks ---------- */
+.rv{opacity:calc(.08 + .92*var(--t,1));transform:translate3d(0,calc((1 - var(--t,1))*48px),0)}
+.rv-scale{opacity:calc(.1 + .9*var(--t,1));transform:scale(calc(.9 + .1*var(--t,1)))}
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:50;pointer-events:none}
+.progress i{display:block;height:3px;background:var(--hl);transform-origin:0 50%;transform:scaleX(var(--doc,0))}
+.pin{position:relative}
+.stage{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;height:100svh;display:flex;align-items:center;overflow:hidden}
+
+/* ---------- HERO ---------- */
+.hero{min-height:88svh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;padding-block:14vh 10vh}
+.hero-inner{transform:scale(calc(1 - .12*var(--h,0)));opacity:calc(1 - var(--h,0));transform-origin:50% 40%}
+.hero .eyebrow{margin-bottom:1.6em;display:flex;gap:.8em;align-items:center;flex-wrap:wrap}
+.dot{width:.62em;height:.62em;border-radius:50%;background:var(--hl);box-shadow:0 0 0 0 rgba(244,210,58,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 .7em rgba(244,210,58,0)}100%{box-shadow:0 0 0 0 rgba(244,210,58,0)}}
+.hero h1{font-size:clamp(3.4rem,12vw,11.5rem);font-weight:900;letter-spacing:-.045em;line-height:.92}
+.hero h1 em{font-style:normal;background:linear-gradient(transparent 58%,var(--hl) 58%,var(--hl) 90%,transparent 90%);padding-inline:.04em;background-size:calc(var(--mark,1)*100%) 100%;background-repeat:no-repeat}
+.hero p.lede{max-width:36ch;margin:1.4em 0 0;font-size:clamp(1.1rem,1.6vw + .5rem,1.9rem);color:var(--fog);line-height:1.35}
+.hero p.lede b{color:var(--snow);font-weight:600}
+.cue{margin-top:3.2em;display:inline-flex;align-items:center;gap:.7em;font-family:var(--mono);font-size:.8em;color:var(--fog);letter-spacing:.1em;text-transform:uppercase}
+.cue span{display:block;width:1.5px;height:2.6em;background:linear-gradient(var(--fog),transparent);animation:drip 1.8s ease-in-out infinite;transform-origin:top}
+@keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+.hero-caption{position:absolute;right:var(--gutter);bottom:4vh;font-family:var(--mono);font-size:.72em;color:var(--fog);text-align:right;line-height:1.5}
+
+/* ---------- INTRO (annotated slop paragraph) ---------- */
+#intro{height:360vh}
+.intro-grid{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:clamp(24px,4vw,72px);align-items:center;width:100%}
+.intro-copy h2{font-size:clamp(1.9rem,3.6vw,3.7rem);font-weight:800;line-height:1.04}
+.intro-copy p{color:var(--fog);max-width:32ch;margin:1em 0 0;font-size:clamp(1rem,1.3vw + .4rem,1.45rem);line-height:1.4}
+.meter{margin-top:1.6em;max-width:26ch}
+.meter .k{font-family:var(--mono);font-size:.75em;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);display:flex;justify-content:space-between}
+.meter .k b{color:var(--hl);font-weight:700;font-variant-numeric:tabular-nums}
+.meter .bar{margin-top:.5em;height:10px;border-radius:99px;background:var(--ink-3);overflow:hidden}
+.meter .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--hl),var(--red));transform-origin:0 50%;transform:scaleX(var(--m,0))}
+.doc-3d{perspective:1600px}
+.doc{background:var(--paper);color:var(--paper-ink);border-radius:4px;padding:clamp(18px,2.6vw,40px) clamp(18px,2.6vw,40px) clamp(18px,2.6vw,40px) clamp(40px,5vw,78px);position:relative;box-shadow:0 40px 90px -30px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.04);transform:rotateX(calc((1 - var(--t,1))*28deg)) translateY(calc((1 - var(--t,1))*80px)) scale(calc(.86 + .14*var(--t,1)));transform-origin:50% 100%}
+.doc::before{content:"";position:absolute;top:0;bottom:0;left:clamp(26px,3.4vw,54px);border-left:1.5px double var(--margin-red);border-right:1px solid var(--margin-red);width:3px}
+.doc-stamp{display:flex;justify-content:space-between;gap:1em;flex-wrap:wrap;font-family:var(--mono);font-size:clamp(.6rem,.5vw + .4rem,.85rem);color:#6a7285;border-bottom:1px solid var(--paper-rule);padding-bottom:.7em;margin-bottom:1em}
+.doc h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.1rem,1.6vw,1.7rem);letter-spacing:-.01em;margin-bottom:.6em}
+.doc .body{font-family:var(--serif);font-size:clamp(.85rem,.9vw + .35rem,1.3rem);line-height:2.2;margin:1.2em 0 0}
+.slop{position:relative;background:linear-gradient(90deg,var(--hl),var(--hl)) no-repeat 0 62%/calc(var(--t,1)*100%) 68%;padding:0 .08em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.tag{position:absolute;left:0;top:-1.25em;display:inline-block;font-family:var(--mono);font-size:.56em;letter-spacing:.06em;text-transform:uppercase;line-height:1;padding:.28em .45em;border-radius:3px;background:var(--red);color:#fff;opacity:var(--t,1);transform:translateY(calc((1 - var(--t,1))*6px));white-space:nowrap}
+.doc-foot{margin-top:1em;padding-top:.8em;border-top:1px solid var(--paper-rule);font-family:var(--mono);font-size:clamp(.6rem,.5vw + .4rem,.85rem);color:#6a7285}
+
+/* ---------- TELLS (light) ---------- */
+.day{background:var(--day);color:var(--day-ink)}
+.tells{padding-block:clamp(90px,16vh,180px)}
+.tells .eyebrow{color:var(--day-mute)}
+.tells h2{font-size:clamp(2.6rem,8vw,8rem);font-weight:900;letter-spacing:-.05em;margin-top:.3em}
+.tells .intro{max-width:46ch;font-size:clamp(1.1rem,1.5vw + .4rem,1.7rem);line-height:1.35;color:var(--day-mute);margin:1em 0 0}
+.tells .intro b{color:var(--day-ink)}
+.tools{margin-top:clamp(28px,5vh,48px);display:flex;gap:.6em;flex-wrap:wrap}
+.pill{font-family:var(--mono);font-size:.82em;border:1.5px solid var(--day-ink);background:transparent;border-radius:999px;padding:.45em 1em;cursor:pointer}
+.pill[aria-pressed="true"]{background:var(--day-ink);color:var(--day)}
+.grid{margin-top:clamp(20px,3vh,32px);display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr));gap:clamp(14px,1.6vw,24px)}
+.card{background:var(--day-2);border-radius:18px;padding:clamp(20px,2.2vw,32px);display:flex;flex-direction:column;gap:.8em;box-shadow:0 1px 0 rgba(11,17,27,.06);transition:box-shadow .3s}
+.card:hover{box-shadow:0 18px 40px -24px rgba(11,17,27,.35)}
+.card-top{display:flex;align-items:center;gap:.7em}
+.num{font-family:var(--mono);font-size:.75em;color:var(--day-mute);letter-spacing:.1em}
+.emo{font-size:1.4em;line-height:1}
+.card h3{font-size:clamp(1.3rem,1.9vw,1.9rem);font-weight:800;letter-spacing:-.025em;line-height:1.08}
+.card .ex{margin:0;font-family:var(--serif);font-size:1em;line-height:1.45}
+.card .ex i{font-style:italic}
+.flip{align-self:flex-start;margin-top:auto;display:inline-flex;align-items:center;gap:.5em;background:none;border:0;padding:.3em 0;font-family:var(--mono);font-size:.8em;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;color:var(--day-ink);border-bottom:1.5px solid var(--hl)}
+.flip .chev{display:inline-block;transition:transform .3s}
+.flip[aria-expanded="true"] .chev{transform:rotate(45deg)}
+.reveal{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.7,.2,1)}
+.reveal > div{overflow:hidden}
+.card.open .reveal{grid-template-rows:1fr}
+.fix{border-top:1.5px solid rgba(11,17,27,.12);padding-top:.9em;display:grid;gap:.7em}
+.fix .lbl{font-family:var(--mono);font-size:.72em;letter-spacing:.14em;text-transform:uppercase;color:var(--day-mute);display:block;margin-bottom:.15em}
+.fix p{margin:0;font-size:.92em;line-height:1.45}
+.fix .plain{font-weight:700}
+.fix .plain::before{content:"";display:inline-block;width:.6em;height:.6em;border-radius:1px;background:var(--green);margin-right:.5em;vertical-align:.05em}
+.fix a{text-decoration-color:var(--hl);text-decoration-thickness:2px;text-underline-offset:3px;font-weight:700}
+.card.warn{background:linear-gradient(160deg,#FBE3E0,var(--day-2) 60%)}
+.card.warn .num{color:var(--red)}
+
+/* ---------- CITATION ---------- */
+#cite{height:300vh}
+.cite-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,90px);align-items:center;width:100%}
+.cite-grid h2{font-size:clamp(2.2rem,4.4vw,4.6rem);font-weight:900;letter-spacing:-.04em}
+.cite-grid .sub{color:var(--fog);margin:1em 0 0;max-width:34ch;font-size:clamp(1rem,1.3vw + .4rem,1.45rem);line-height:1.4}
+.cite-grid .sub b{color:var(--snow);font-weight:600}
+.order-card{background:var(--paper);color:var(--paper-ink);font-family:var(--mono);border-radius:4px;padding:clamp(18px,2.4vw,36px);font-size:clamp(.72rem,.6vw + .45rem,1.02rem);line-height:1.55;box-shadow:0 40px 90px -30px rgba(0,0,0,.8);position:relative}
+.order-card .hdr{font-size:.82em;color:#6a7285;border-bottom:1px solid var(--paper-rule);padding-bottom:.6em;margin-bottom:1em}
+.order-card .claim{font-family:var(--serif);font-size:1.15em;line-height:1.5}
+.order-card .claim i{font-style:italic}
+.order-card .claim .c{background:linear-gradient(90deg,var(--hl),var(--hl)) no-repeat 0 62%/calc(var(--t,1)*100%) 68%;text-decoration:line-through;text-decoration-color:rgba(201,55,44,var(--t,1));text-decoration-thickness:2px}
+.stamp{display:inline-block;margin-top:1em;font-family:var(--sans);font-weight:800;font-size:.9em;letter-spacing:.08em;text-transform:uppercase;color:var(--red);border:2px solid var(--red);border-radius:3px;padding:.3em .6em;background:var(--red-soft);opacity:var(--t,1);transform:rotate(-6deg) scale(calc(2.2 - 1.2*var(--t,1)))}
+.typed{font-size:clamp(1.7rem,3.3vw,3.2rem);font-weight:700;line-height:1.1;margin:.6em 0 .2em;color:var(--red);letter-spacing:-.02em;min-height:2.2em}
+.typed .caret{display:inline-block;width:.08em;height:.9em;background:var(--red);vertical-align:-.08em;margin-left:.04em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.lesson{margin-top:clamp(18px,3vh,32px);display:inline-block;background:var(--hl);color:var(--ink);font-weight:800;padding:.45em .8em;border-radius:4px;font-size:clamp(1.05rem,1.6vw,1.6rem);letter-spacing:-.01em;line-height:1.2}
+.xlink{display:inline-flex;gap:.5em;margin-top:1.2em;font-family:var(--mono);font-size:.8em;letter-spacing:.08em;text-transform:uppercase;color:var(--snow);text-decoration:none;border-bottom:1.5px solid var(--hl);padding-bottom:.15em}
+
+/* ---------- QUIZ ---------- */
+.quiz{padding-block:clamp(90px,16vh,180px) clamp(40px,8vh,90px)}
+.quiz h2{font-size:clamp(2.6rem,7.5vw,7.4rem);font-weight:900;letter-spacing:-.045em;max-width:12ch}
+.quiz .sub{color:var(--fog);max-width:44ch;margin:1em 0 0;font-size:clamp(1rem,1.3vw + .4rem,1.45rem);line-height:1.4}
+.score{margin-top:clamp(24px,4vh,40px);display:flex;align-items:baseline;gap:.6em;font-family:var(--mono);color:var(--fog);font-size:.85em;letter-spacing:.1em;text-transform:uppercase}
+.score b{font-family:var(--sans);font-size:2.6em;color:var(--snow);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.qlist{list-style:none;margin:clamp(18px,3vh,32px) 0 0;padding:0;display:grid;gap:clamp(12px,1.4vw,18px)}
+.q{background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:clamp(16px,2vw,26px);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.8em 1.4em;align-items:center;transition:border-color .3s,background .3s}
+.q .s{font-family:var(--serif);font-size:clamp(1.05rem,1.4vw,1.5rem);line-height:1.35}
+.q .btns{display:flex;gap:.5em}
+.q button{border:1.5px solid var(--line);background:var(--ink-3);border-radius:999px;padding:.45em 1.05em;font-family:var(--mono);font-size:.8em;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.q button:hover:not(:disabled){border-color:var(--fog)}
+.q button:disabled{cursor:default;opacity:.45}
+.q button.pick{opacity:1}
+.q .why{grid-column:1 / -1;margin:0;color:var(--fog);font-size:.9em;line-height:1.45;display:none}
+.q.done .why{display:block}
+.q.right{border-color:rgba(46,139,87,.7);background:linear-gradient(160deg,#12281d,var(--ink-2) 70%)}
+.q.wrong{border-color:#5b231e;background:linear-gradient(160deg,#3a1512,var(--ink-2) 70%)}
+.q.right button.pick{background:var(--green);border-color:var(--green);color:#fff}
+.q.wrong button.pick{background:var(--red);border-color:var(--red);color:#fff}
+.verdict-line{margin-top:1.2em;min-height:1.6em;font-weight:700;font-size:clamp(1.1rem,1.6vw,1.6rem)}
+.reset{margin-top:.8em;background:none;border:0;border-bottom:1.5px solid var(--hl);padding:.2em 0;font-family:var(--mono);font-size:.8em;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+
+/* ---------- SLOPIFIER ---------- */
+.lab{padding-block:clamp(60px,10vh,120px) clamp(90px,16vh,180px)}
+.lab h2{font-size:clamp(2.4rem,6vw,6rem);font-weight:900;letter-spacing:-.04em;max-width:14ch}
+.lab .sub{color:var(--fog);max-width:44ch;margin:1em 0 0;font-size:clamp(1rem,1.3vw + .4rem,1.45rem);line-height:1.4}
+.machine{margin-top:clamp(28px,5vh,56px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(14px,2vw,28px);align-items:stretch}
+.panel{background:var(--ink-2);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.2vw,34px);display:flex;flex-direction:column;gap:.9em}
+.panel label{font-family:var(--mono);font-size:.75em;letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
+.panel textarea{width:100%;min-height:6.5em;resize:vertical;background:var(--ink);color:var(--snow);border:1px solid var(--line);border-radius:10px;padding:.8em 1em;font:inherit;font-size:1.05em;line-height:1.4}
+.examples{display:flex;flex-wrap:wrap;gap:.45em}
+.examples button{background:none;border:1px solid var(--line);border-radius:999px;padding:.3em .8em;font-size:.78em;color:var(--fog);cursor:pointer}
+.examples button:hover{color:var(--snow);border-color:var(--fog)}
+.go{align-self:flex-start;margin-top:auto;background:var(--hl);color:var(--ink);border:0;border-radius:999px;padding:.7em 1.4em;font-weight:800;font-size:1em;cursor:pointer;letter-spacing:-.01em;transition:transform .15s}
+.go:active{transform:scale(.97)}
+.out{background:var(--paper);color:var(--paper-ink);border-color:transparent}
+.out label{color:#6a7285}
+.out .txt{font-family:var(--serif);font-size:clamp(1.05rem,1.4vw,1.45rem);line-height:1.5;min-height:6em}
+.out .txt .ph{color:#9aa1b0;font-style:italic}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6em;margin-top:auto;border-top:1px solid var(--paper-rule);padding-top:.9em}
+.stats div{display:flex;flex-direction:column;gap:.1em}
+.stats .k{font-family:var(--mono);font-size:.68em;letter-spacing:.12em;text-transform:uppercase;color:#6a7285}
+.stats .v{font-size:clamp(1.4rem,2.2vw,2.2rem);font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+.stats .v.zero{color:var(--red)}
+
+/* ---------- CURE (light) ---------- */
+.cure{padding-block:clamp(90px,16vh,180px)}
+.cure .eyebrow{color:var(--day-mute)}
+.cure h2{font-size:clamp(2.2rem,5.4vw,5.2rem);font-weight:900;letter-spacing:-.04em;margin-top:.3em}
+.list{list-style:none;margin:clamp(28px,5vh,56px) 0 0;padding:0;display:grid}
+.list li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(14px,2vw,28px);align-items:start;padding-block:clamp(16px,2.4vh,26px);border-top:1.5px solid rgba(11,17,27,.14)}
+.list li:last-child{border-bottom:1.5px solid rgba(11,17,27,.14)}
+.box{width:clamp(30px,2.6vw,42px);height:clamp(30px,2.6vw,42px);border:2.5px solid var(--day-ink);border-radius:8px;display:grid;place-items:center;margin-top:.15em;background:rgba(11,17,27,var(--t,1))}
+.box svg{width:62%;height:62%;stroke:var(--hl);stroke-width:3.2;fill:none;stroke-dasharray:24;stroke-dashoffset:calc((1 - var(--t,1))*24)}
+.list h3{font-size:clamp(1.3rem,2.4vw,2.4rem);font-weight:800;letter-spacing:-.025em;line-height:1.1}
+.list p{margin:.35em 0 0;color:var(--day-mute);max-width:60ch;font-size:.95em;line-height:1.45}
+
+/* ---------- FINALE ---------- */
+.finale{padding-block:clamp(100px,20vh,220px)}
+.finale h2{font-size:clamp(3rem,9vw,9rem);font-weight:900;letter-spacing:-.05em;line-height:.92;max-width:13ch}
+.finale h2 .mk{background:linear-gradient(transparent 55%,var(--hl) 55%,var(--hl) 88%,transparent 88%) no-repeat 0 0/calc(var(--t,1)*100%) 100%;padding-inline:.04em}
+.signoff{margin-top:1.6em;font-family:var(--serif);font-style:italic;font-size:clamp(1.15rem,1.8vw,1.8rem);color:var(--fog);line-height:1.35}
+.signoff s{text-decoration-color:var(--red);text-decoration-thickness:2px}
+.sources{border-top:1px solid var(--line);padding-block:clamp(36px,6vh,60px) clamp(40px,8vh,80px);color:var(--fog);font-size:.78em;line-height:1.55}
+.sources h3{font-family:var(--mono);font-size:.9em;letter-spacing:.14em;text-transform:uppercase;font-weight:400;margin-bottom:1em;color:var(--snow)}
+.sources p{max-width:80ch;margin:0 0 .8em}
+.sources a{color:var(--snow);text-underline-offset:3px;text-decoration-color:var(--line)}
+
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  .intro-grid,.cite-grid,.machine{grid-template-columns:1fr;gap:18px}
+  .intro-copy p,.meter,.cite-grid .sub{display:none}
+  .intro-copy h2{font-size:clamp(1.7rem,7vw,2.4rem)}
+  .doc{padding-left:clamp(34px,9vw,50px)}
+  .doc::before{left:clamp(20px,5vw,30px)}
+  .doc .body{line-height:2.1}
+  .q{grid-template-columns:1fr}
+  .hero-caption{position:static;text-align:left;margin-top:2em}
+}
+@media (max-height:680px) and (min-width:861px){
+  .doc .body{font-size:.8rem}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .pin{height:auto!important}
+  .stage{position:relative;height:auto;min-height:0;padding-block:12vh}
+  .dot,.cue span,.caret{animation:none!important}
+  .reveal{transition:none}
+}
+</style>
+</head>
+<body data-own-engine>
+
+<div class="progress" aria-hidden="true"><i></i></div>
+
+<!-- HERO -->
+<header class="hero wrap" id="top">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="dot" aria-hidden="true"></span>A field guide · written badly on purpose</div>
+    <h1>Spot the <em>slop.</em></h1>
+    <p class="lede"><b>AI slop</b> is text that sounds finished and says nothing. This page explains it the only honest way: by committing every offense as it goes.</p>
+    <div class="cue" aria-hidden="true"><span></span>Scroll</div>
+  </div>
+  <div class="hero-caption">North Carolina Conference of District Attorneys<br>CLE · Artificial Intelligence &amp; the Prosecutor</div>
+</header>
+
+<!-- INTRO: annotated slop paragraph -->
+<section class="pin" id="intro" data-pin aria-label="An annotated example of AI slop">
+  <div class="stage">
+    <div class="wrap intro-grid">
+      <div class="intro-copy">
+        <div class="eyebrow rv" data-range="0,.06">Exhibit A · the introduction</div>
+        <h2 class="rv" data-range="0.02,0.1">Sixty-five words. <span style="color:var(--hl)">Zero facts.</span></h2>
+        <p class="rv" data-range="0.06,0.14">It reads like a real opening paragraph. Scroll to run the slop detector over it.</p>
+        <div class="meter rv" data-range="0.08,0.16" aria-hidden="true">
+          <div class="k"><span>Slop detected</span><b id="slopCount">0 / 7</b></div>
+          <div class="bar"><i></i></div>
+        </div>
+      </div>
+      <div class="doc-3d">
+        <article class="doc" data-range="0,0.14">
+          <div class="doc-stamp"><span>Generated · 0.8 seconds</span><span>Reviewed · never</span></div>
+          <h3>Understanding AI Slop: A Comprehensive Guide 🚀</h3>
+          <p class="body">
+            <span class="slop" data-range="0.16,0.24" data-hit>In today's rapidly evolving digital landscape,<span class="tag" data-range="0.2,0.26">Throat-clearing</span></span>
+            AI slop has emerged as a <span class="slop" data-range="0.26,0.34" data-hit>transformative force that is reshaping<span class="tag" data-range="0.3,0.36">Inflated stakes</span></span>
+            the way we think about content. <span class="slop" data-range="0.36,0.44" data-hit>It's not just text; it's a rich tapestry<span class="tag" data-range="0.4,0.46">Not X, it's Y</span></span>
+            of words, woven together with <span class="slop" data-range="0.46,0.54" data-hit>purpose, passion, and absolutely no information.<span class="tag" data-range="0.5,0.56">Rule of three</span></span>
+            As legal professionals navigate this <span class="slop" data-range="0.56,0.64" data-hit>complex and ever-changing terrain,<span class="tag" data-range="0.6,0.66">Filler</span></span>
+            <span class="slop" data-range="0.66,0.74" data-hit>it is crucial to delve into the multifaceted nature<span class="tag" data-range="0.7,0.76">Delve</span></span>
+            of slop. <span class="slop" data-range="0.76,0.84" data-hit>Let's dive in! 💡<span class="tag" data-range="0.8,0.86">Fake pep</span></span>
+          </p>
+          <div class="doc-foot">Specific facts, names, dates or citations in this paragraph: none.</div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TELLS -->
+<div class="day">
+  <section class="tells wrap" id="tells" aria-label="The ten tells of AI slop">
+    <div class="eyebrow">The ten tells</div>
+    <h2 class="rv" data-range="-0.1,0.2" data-self>Every example is also the crime.</h2>
+    <p class="intro rv" data-range="0,0.25" data-self>Each card below explains a tell of AI slop <b>while doing it</b>. Open a card to see what's going wrong and what a person would have written.</p>
+    <div class="tools">
+      <button class="pill" type="button" id="openAll" aria-pressed="false">Show all answers</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+</div>
+
+<!-- CITATION -->
+<section class="pin" id="cite" data-pin aria-label="The tell that ends careers">
+  <div class="stage">
+    <div class="wrap cite-grid">
+      <div>
+        <div class="eyebrow rv" data-range="0,.08">Tell no. 4 · the dangerous one</div>
+        <h2 class="rv" data-range="0.02,0.14">Nine of these are embarrassing. One gets you sanctioned.</h2>
+        <p class="sub rv" data-range="0.1,0.22">Slop's worst habit is <b>inventing authority</b> that looks exactly like the real thing: a plausible case name, a real reporter, a confident parenthetical. It is formatted perfectly. It does not exist.</p>
+      </div>
+      <div>
+        <div class="order-card rv-scale" data-range="0.12,0.28">
+          <div class="hdr">Draft brief · Section II.B · AI-assisted</div>
+          <p class="claim" data-range="0.3,0.42">As the court firmly held in <span class="c"><i>State v. Chatbot</i>, 412 N.C. 999 (2023)</span>, a citation doesn't have to exist to be formatted beautifully.</p>
+          <span class="stamp" data-range="0.42,0.5">No such case</span>
+          <div class="typed" data-type="This case does not exist." data-range="0.52,0.74" aria-label="This case does not exist.">This case does not exist.</div>
+        </div>
+        <div class="lesson rv" data-range="0.76,0.86">Formatting is not verification.</div><br>
+        <a class="xlink rv" data-range="0.8,0.9" href="renfer-ai-warning.html">See what it cost an AUSA in Raleigh →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz wrap" id="quiz" aria-label="Slop or not quiz">
+  <div class="eyebrow">Your turn</div>
+  <h2 class="rv" data-range="-0.1,0.25" data-self>Slop, or a person?</h2>
+  <p class="sub rv" data-range="0,0.3" data-self>Six sentences. Some came from a prosecutor's desk, some came from a machine trying to sound like one.</p>
+  <div class="score" aria-live="polite"><b id="score">0</b><span>of <span id="answered">0</span> answered correctly</span></div>
+  <ol class="qlist" id="qlist"></ol>
+  <div class="verdict-line" id="verdict" aria-live="polite"></div>
+  <button class="reset" type="button" id="resetQuiz">Start over</button>
+</section>
+
+<!-- SLOPIFIER -->
+<section class="lab wrap" id="lab" aria-label="Slopify a sentence">
+  <div class="eyebrow">The slop machine</div>
+  <h2 class="rv" data-range="-0.1,0.25" data-self>Make it longer. Make it worse.</h2>
+  <p class="sub rv" data-range="0,0.3" data-self>Type something a prosecutor would actually say. The machine adds everything slop adds, and nothing else.</p>
+  <div class="machine">
+    <div class="panel">
+      <label for="plain">Plain English</label>
+      <textarea id="plain" maxlength="200">Check every citation before you file.</textarea>
+      <div class="examples" aria-label="Examples">
+        <button type="button">The lab report is back.</button>
+        <button type="button">We're ready for trial on Monday.</button>
+        <button type="button">The witness recanted.</button>
+        <button type="button">Don't paste victim names into ChatGPT.</button>
+      </div>
+      <button class="go" type="button" id="slopify">Slopify it 🚀</button>
+    </div>
+    <div class="panel out">
+      <label>Slop</label>
+      <div class="txt" id="slopOut" aria-live="polite"><span class="ph">Your sentence, improved beyond recognition, will appear here.</span></div>
+      <div class="stats">
+        <div><span class="k">Words in</span><span class="v" id="wIn">0</span></div>
+        <div><span class="k">Words out</span><span class="v" id="wOut">0</span></div>
+        <div><span class="k">New facts</span><span class="v zero">0</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CURE -->
+<div class="day">
+  <section class="cure wrap" id="cure" aria-label="How to avoid slop">
+    <div class="eyebrow">The cure</div>
+    <h2 class="rv" data-range="-0.1,0.15" data-self>Four habits that keep slop out of your filings.</h2>
+    <ul class="list">
+      <li data-range="0.05,0.2" data-self><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span><div><h3>Hunt for nouns you can check.</h3><p>Real writing names a defendant, a date, a statute, a page. If you can't verify a sentence against anything, it's probably filler.</p></div></li>
+      <li data-range="0.12,0.27" data-self><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span><div><h3>Give the tool the facts, then ask for less.</h3><p>Paste in what you actually know (and are allowed to share) and ask for a short draft. Vague prompts get vague output.</p></div></li>
+      <li data-range="0.19,0.34" data-self><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span><div><h3>Cut any sentence that could appear in any brief.</h3><p>If a line would fit just as well in a DWI motion as in a homicide brief, it isn't doing any work in either.</p></div></li>
+      <li data-range="0.26,0.41" data-self><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span><div><h3>Read every citation in the source before you sign.</h3><p>Pull the case, find the quote on the page, confirm the pin cite. Your signature certifies it, not the tool's.</p></div></li>
+    </ul>
+  </section>
+</div>
+
+<!-- FINALE -->
+<section class="finale wrap" id="finale" aria-label="Closing">
+  <div class="eyebrow" style="margin-bottom:1.4em">In conclusion</div>
+  <h2>If it could be about anything, <span class="mk" data-range="0,0.4" data-self>it's about nothing.</span></h2>
+  <p class="signoff"><s>I hope this helps! Let me know if you'd like me to expand on any of these points! 😊</s></p>
+</section>
+
+<footer class="sources wrap">
+  <h3>A note on this page</h3>
+  <p>Every statistic, study and citation inside the slop examples is fabricated on purpose. <i>State v. Chatbot</i> is not a real case, and the "87%" figure comes from nowhere.</p>
+  <p>The real consequences are documented: see <a href="renfer-ai-warning.html">Don't Be the Headline</a> for the Eastern District of North Carolina matters, and N.C. State Bar, 2024 Formal Ethics Opinion 1, "Use of Artificial Intelligence in a Law Practice" (Nov. 1, 2024).</p>
+</footer>
+
+<script>
+(function(){
+  /* ---------- data ---------- */
+  var TELLS = [
+    {e:'🔍', t:'It delves.', ex:'AI slop never simply "looks at" something. It delves, dives deep, and unpacks, which are pivotal and robust ways of reading a single paragraph.',
+      why:'Pet verbs and inflated adjectives (delve, pivotal, robust) that dress up an ordinary action.', plain:'Read the order.'},
+    {e:'✨', t:'It’s not just X, it’s Y.', ex:'Slop isn’t just filler. It’s a <i>paradigm shift</i> in filler. It isn’t just a sentence. It’s a <i>journey</i>.',
+      why:'A false contrast that knocks down a point nobody made, so the "real" point feels profound.', plain:'Slop is filler.'},
+    {e:'📊', t:'It cites statistics that feel true.', ex:'Studies show that 87% of AI-generated content contains a statistic like this one, according to a 2024 report from a leading institution.',
+      why:'A precise number tied to a source you can’t find. "Leading" anything is a warning sign.', plain:'Name the study, or drop the number.'},
+    {e:'⚖️', t:'It invents case law with confidence.', warn:true, ex:'As the court firmly held in <i>State v. Chatbot</i>, 412 N.C. 999 (2023), a citation doesn’t have to exist to be formatted beautifully. (Please do not Shepardize this.)',
+      why:'A realistic case name, reporter and year for a case that doesn’t exist. This is the tell that leads to show-cause orders.', plain:'Cite only what you’ve pulled and read.', link:true},
+    {e:'🎯', t:'It groups everything in threes.', ex:'Slop is clear, concise, and compelling. It is efficient, effective, and empowering. It is, above all, three things.',
+      why:'Triplets picked for rhythm, not meaning. The third item is usually a synonym of the first two.', plain:'Say the one thing that matters.'},
+    {e:'🤝', t:'It validates everything.', ex:'What a great question! You’re absolutely right to raise that, and it shows you have a sharp eye for what matters.',
+      why:'Flattery before substance. A tool that agrees with you won’t find the hole in your case.', plain:'Answer the question.'},
+    {e:'🧩', t:'It hedges until nothing is left.', ex:'In some cases, depending on various factors, it may potentially be worth considering that slop could, arguably, be somewhat vague.',
+      why:'Stacked qualifiers until no claim survives, so nothing can ever be wrong.', plain:'Slop is vague. Here’s when it isn’t.'},
+    {e:'🔗', t:'It uses em dashes everywhere.', ex:'Slop loves an em dash — it adds drama — it adds rhythm — and it adds nothing else.',
+      why:'Dashes used to fake a speaking cadence instead of building real sentences.', plain:'Use a period.'},
+    {e:'🌟', t:'It bolds labels followed by colons.', ex:'<b>Key takeaway:</b> This format makes any sentence look important. <b>Why it matters:</b> It doesn’t.',
+      why:'Labels that promise weight the sentence after them never delivers.', plain:'Write a sentence that’s important on its own.'},
+    {e:'🏁', t:'It concludes by restating the introduction.', ex:'In conclusion, AI slop is a multifaceted, transformative force in today’s rapidly evolving landscape. By delving into its rich tapestry, we can unlock its full potential. I hope this helps!',
+      why:'A summary of a summary, plus an offer to keep going.', plain:'Stop when you’re done.'}
+  ];
+
+  var QUIZ = [
+    {s:'In an era defined by unprecedented technological change, the role of the prosecutor has never been more pivotal.', a:'slop', why:'Throat-clearing opener, inflated stakes, and nothing you could verify.'},
+    {s:'The body-cam footage starts about 40 seconds after the stop, so we don’t have the initial approach.', a:'human', why:'A specific gap in specific evidence, and why it matters. That’s a person.'},
+    {s:'Great question! Discovery is a multifaceted process that requires a holistic, collaborative approach.', a:'slop', why:'Flattery, "multifaceted," "holistic," and no actual discovery obligation named.'},
+    {s:'Defense has until Friday to respond to our motion in limine on the 404(b) evidence.', a:'human', why:'A deadline, a motion and a rule. Every noun can be checked.'},
+    {s:'This case isn’t just about a stolen car — it’s about trust, accountability, and community.', a:'slop', why:'"Not just X, it’s Y," em dash, and a rule of three, all in one sentence.'},
+    {s:'The lab report lists the wrong date on page 3; the chain-of-custody form has it right.', a:'human', why:'A page number and a correction. Slop almost never tells you where to look.'}
+  ];
+
+  /* ---------- tells grid ---------- */
+  var grid = document.getElementById('grid');
+  TELLS.forEach(function(d,i){
+    var id = 'tell-' + (i+1);
+    var el = document.createElement('article');
+    el.className = 'card' + (d.warn ? ' warn' : '');
+    el.innerHTML =
+      '<div class="card-top"><span class="emo" aria-hidden="true">' + d.e + '</span><span class="num">TELL ' + String(i+1).padStart(2,'0') + '</span></div>' +
+      '<h3>' + d.t + '</h3>' +
+      '<p class="ex">' + d.ex + '</p>' +
+      '<div class="reveal" id="' + id + '"><div><div class="fix">' +
+        '<p><span class="lbl">What’s going wrong</span>' + d.why + '</p>' +
+        '<p><span class="lbl">What a person would write</span><span class="plain">' + d.plain + '</span></p>' +
+        (d.link ? '<p><a href="renfer-ai-warning.html">See the real-world cost →</a></p>' : '') +
+      '</div></div></div>' +
+      '<button class="flip" type="button" aria-expanded="false" aria-controls="' + id + '"><span class="chev" aria-hidden="true">+</span><span class="lab-txt">What’s wrong here?</span></button>';
+    grid.appendChild(el);
+  });
+  function setCard(card, open){
+    card.classList.toggle('open', open);
+    var b = card.querySelector('.flip');
+    b.setAttribute('aria-expanded', open);
+    b.querySelector('.lab-txt').textContent = open ? 'Hide' : 'What’s wrong here?';
+  }
+  grid.addEventListener('click', function(e){
+    var b = e.target.closest('.flip'); if(!b) return;
+    var card = b.closest('.card');
+    setCard(card, !card.classList.contains('open'));
+  });
+  var openAll = document.getElementById('openAll');
+  openAll.addEventListener('click', function(){
+    var on = openAll.getAttribute('aria-pressed') !== 'true';
+    openAll.setAttribute('aria-pressed', on);
+    openAll.textContent = on ? 'Hide all answers' : 'Show all answers';
+    grid.querySelectorAll('.card').forEach(function(c){ setCard(c, on); });
+  });
+
+  /* ---------- quiz ---------- */
+  var qlist = document.getElementById('qlist');
+  var scoreEl = document.getElementById('score'), ansEl = document.getElementById('answered'), verdict = document.getElementById('verdict');
+  var score = 0, answered = 0;
+  function buildQuiz(){
+    qlist.innerHTML = ''; score = 0; answered = 0; update();
+    QUIZ.forEach(function(q){
+      var li = document.createElement('li');
+      li.className = 'q';
+      li.innerHTML = '<span class="s">“' + q.s + '”</span>' +
+        '<span class="btns"><button type="button" data-v="slop">Slop</button><button type="button" data-v="human">Person</button></span>' +
+        '<p class="why"></p>';
+      li.querySelectorAll('button').forEach(function(b){
+        b.addEventListener('click', function(){
+          if(li.classList.contains('done')) return;
+          var ok = b.dataset.v === q.a;
+          li.classList.add('done', ok ? 'right' : 'wrong');
+          b.classList.add('pick');
+          li.querySelectorAll('button').forEach(function(x){ x.disabled = true; });
+          li.querySelector('.why').textContent = (ok ? 'Correct. ' : (q.a === 'slop' ? 'That one was slop. ' : 'That one was a person. ')) + q.why;
+          answered++; if(ok) score++; update();
+        });
+      });
+      qlist.appendChild(li);
+    });
+  }
+  function update(){
+    scoreEl.textContent = score; ansEl.textContent = answered;
+    if(answered < QUIZ.length){ verdict.textContent = ''; return; }
+    verdict.textContent = score === QUIZ.length
+      ? 'Perfect. The pattern: people name things you can check. Slop doesn’t.'
+      : score >= 4 ? 'Solid. The tell to watch for: slop has no nouns you could look up.'
+      : 'Slop is convincing. That’s the problem. Look for names, dates and page numbers.';
+  }
+  document.getElementById('resetQuiz').addEventListener('click', buildQuiz);
+  buildQuiz();
+
+  /* ---------- slopifier ---------- */
+  var OPEN = ["In today’s rapidly evolving legal landscape,","In an era of unprecedented change,","Now, more than ever,","As we navigate the complex terrain of modern prosecution,"];
+  var FRAME = [
+    function(s){ return 'it’s crucial to recognize that “' + s + '” isn’t just a statement — it’s a paradigm shift.'; },
+    function(s){ return 'we must delve into the multifaceted truth that ' + s + '.'; },
+    function(s){ return 'it’s worth noting that ' + s + ' — and that matters more than you might think.'; }
+  ];
+  var MID = ["This isn’t just about the case; it’s about building a robust, holistic, and forward-thinking practice.","It represents a pivotal cornerstone of justice, accountability, and community trust.","Studies show that 87% of legal professionals agree this is a game-changer."];
+  var CLOSE = ["By embracing this journey, we can unlock its full potential. 🚀","Ultimately, the possibilities are endless. 💡","In conclusion, this is a transformative moment for all stakeholders. ✨"];
+  var TAIL = ["I hope this helps! 😊","Let me know if you’d like me to expand on any of these points!","Great question, by the way!"];
+  function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function words(s){ return (s.trim().match(/\S+/g) || []).length; }
+  var plain = document.getElementById('plain'), out = document.getElementById('slopOut');
+  function slopify(){
+    var raw = plain.value.trim() || 'Check every citation before you file.';
+    var s = raw.replace(/[.!?]+$/,'');
+    if(!/^I\b/.test(s)) s = s.charAt(0).toLowerCase() + s.slice(1);
+    var txt = pick(OPEN) + ' ' + pick(FRAME)(s) + ' ' + pick(MID) + ' ' + pick(CLOSE) + ' ' + pick(TAIL);
+    out.textContent = txt;
+    countTo(document.getElementById('wIn'), words(raw));
+    countTo(document.getElementById('wOut'), words(txt));
+  }
+  function countTo(el, n){
+    var from = +el.textContent || 0, t0 = performance.now();
+    (function step(now){
+      var k = Math.min(1,(now - t0)/600);
+      el.textContent = Math.round(from + (n - from) * (1 - Math.pow(1-k,3)));
+      if(k < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+  document.getElementById('slopify').addEventListener('click', slopify);
+  document.querySelectorAll('.examples button').forEach(function(b){
+    b.addEventListener('click', function(){ plain.value = b.textContent; slopify(); });
+  });
+  countTo(document.getElementById('wIn'), words(plain.value));
+
+  /* ---------- scroll engine ---------- */
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
+  var hits = [].slice.call(document.querySelectorAll('[data-hit]'));
+  var countEl = document.getElementById('slopCount');
+  var meter = document.querySelector('.meter');
+  if(reduce){ countEl.textContent = hits.length + ' / ' + hits.length; meter.style.setProperty('--m',1); return; }
+
+  var clamp = function(v){return v<0?0:v>1?1:v};
+  var ease = function(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
+  var pins = [].slice.call(document.querySelectorAll('[data-pin]')).map(function(sec){
+    return {
+      sec: sec,
+      items: [].slice.call(sec.querySelectorAll('[data-range]')).filter(function(n){return !n.hasAttribute('data-self')}),
+      typers: [].slice.call(sec.querySelectorAll('[data-type]'))
+    };
+  });
+  var selfs = [].slice.call(document.querySelectorAll('[data-self]'));
+  var hero = document.querySelector('.hero-inner');
+  var heroEm = document.querySelector('.hero h1 em');
+  function local(el,p){
+    if(!el._r) el._r = el.getAttribute('data-range').split(',').map(Number);
+    return ease(clamp((p - el._r[0]) / (el._r[1] - el._r[0])));
+  }
+  var start = performance.now();
+  heroEm.style.setProperty('--mark','0');
+  (function heroIntro(now){
+    var t = clamp((now - start - 350) / 900);
+    heroEm.style.setProperty('--mark', ease(t).toFixed(3));
+    if(t < 1) requestAnimationFrame(heroIntro);
+  })(start);
+
+  var ticking = false;
+  function frame(){
+    ticking = false;
+    var vh = window.innerHeight;
+    var docH = root.scrollHeight - vh;
+    root.style.setProperty('--doc', docH > 0 ? (window.scrollY / docH).toFixed(4) : 0);
+    hero.style.setProperty('--h', clamp(window.scrollY / (vh * .8)).toFixed(3));
+
+    pins.forEach(function(o){
+      var rect = o.sec.getBoundingClientRect();
+      if(rect.bottom < -vh || rect.top > vh * 2) return;
+      var span = rect.height - vh;
+      var p = span > 0 ? clamp(-rect.top / span) : 0;
+      o.items.forEach(function(el){ el.style.setProperty('--t', local(el,p).toFixed(3)); });
+      o.typers.forEach(function(el){
+        var full = el.getAttribute('data-type');
+        var k = Math.round(local(el,p) * full.length);
+        if(el._k !== k){
+          el._k = k; el.innerHTML = '';
+          el.appendChild(document.createTextNode(full.slice(0,k)));
+          var c = document.createElement('span'); c.className = 'caret'; el.appendChild(c);
+        }
+      });
+    });
+
+    var n = 0, sum = 0;
+    hits.forEach(function(h){ var t = +h.style.getPropertyValue('--t') || 0; sum += t; if(t > .5) n++; });
+    countEl.textContent = n + ' / ' + hits.length;
+    meter.style.setProperty('--m', (sum / hits.length).toFixed(3));
+
+    selfs.forEach(function(el){
+      var rect = el.getBoundingClientRect();
+      if(rect.top > vh * 1.2 || rect.bottom < -vh * .2) return;
+      el.style.setProperty('--t', local(el, clamp((vh - rect.top) / vh)).toFixed(3));
+    });
+  }
+  function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(frame); } }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  selfs.forEach(function(el){ if(el.getBoundingClientRect().top > window.innerHeight) el.style.setProperty('--t','0'); });
+  frame();
+})();
+</script>
+
+<div id="pager"></div>
+<script src="site.js"></script>
+</body>
+</html>

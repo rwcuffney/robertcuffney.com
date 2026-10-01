@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>What Can Go Wrong · AI in Prosecution</title>
+<meta name="description" content="Part 5: hallucinations, slop, privacy, and brain rot. Two Eastern District of North Carolina cases, five habits, and the account rules that apply to prosecutors.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Libre+Caslon+Text:ital,wght@0,400;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+.risks{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:clamp(12px,1.4vw,20px)}
+.risks a{display:grid;gap:.3em;text-decoration:none;background:var(--ink-2);border:1px solid var(--line);border-radius:16px;padding:1.2em;transition:border-color .2s,transform .2s;min-width:0}
+.risks a:hover{border-color:var(--hl);transform:translateY(-3px)}
+.risks .k{font-family:var(--mono);font-size:.72em;letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
+.risks .t{font-size:clamp(1.3rem,2vw,1.9rem);font-weight:900;letter-spacing:-.03em}
+.risks .d{color:var(--fog);font-size:.9em;line-height:1.4}
+
+/* renfer summary */
+.story{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,4vw,72px);align-items:start}
+.bignum{font-size:clamp(5rem,14vw,11rem);font-weight:900;line-height:.85;letter-spacing:-.06em;background:linear-gradient(180deg,var(--snow) 30%,#56627a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.bignum-l{font-family:var(--mono);color:var(--fog);text-transform:uppercase;letter-spacing:.14em;font-size:.78em;margin-top:.8em}
+.lines{display:grid;gap:.4em;margin-top:1.4em}
+.lines p{font-size:clamp(1.15rem,2vw,1.8rem);font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.lines p.mute{font-weight:500}
+.tl{list-style:none;margin:0;padding:0;display:grid;gap:.5em}
+.tl li{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:1em;align-items:start;background:var(--ink-2);border:1px solid var(--line);border-radius:12px;padding:.8em 1em}
+.tl li.alarm{background:linear-gradient(160deg,#3a1512,var(--ink-2) 70%);border-color:#5b231e}
+.tl time{font-family:var(--mono);color:var(--hl);font-size:.8em;letter-spacing:.06em;text-transform:uppercase;padding-top:.25em}
+.tl li.alarm time{color:#ff8a7e}
+.tl .t{font-weight:800;letter-spacing:-.02em}
+.tl p{color:var(--fog);font-size:.9em;line-height:1.4}
+@media (max-width:860px){.story{grid-template-columns:1fr}}
+@media (max-width:480px){.tl li{grid-template-columns:1fr;gap:.2em}}
+.feature{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1em;align-items:center;text-decoration:none;background:linear-gradient(160deg,#2a2810,var(--ink-2) 65%);border:1px solid rgba(244,210,58,.55);border-radius:18px;padding:clamp(18px,2.2vw,30px);transition:transform .2s;margin-top:clamp(20px,3vh,32px)}
+.feature:hover{transform:translateY(-3px)}
+.feature .k{font-family:var(--mono);font-size:.72em;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);display:block;margin-bottom:.3em}
+.feature .t{font-size:clamp(1.3rem,2.4vw,2.2rem);font-weight:900;letter-spacing:-.03em;line-height:1.05}
+.feature .d{color:var(--fog);font-size:.9em;margin-top:.3em;display:block}
+.feature .arr{font-size:2em;color:var(--hl)}
+.day .feature{background:var(--day-2);border-color:transparent;box-shadow:0 1px 0 rgba(11,17,27,.06)}
+.day .feature .k,.day .feature .d{color:var(--day-mute)}
+.again{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,3vw,48px);align-items:center}
+.again .doc .cx{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:2px}
+.again .doc .big{font-family:var(--sans);font-size:clamp(1.5rem,2.8vw,2.6rem);font-weight:800;color:var(--red);letter-spacing:-.02em;line-height:1.1;margin:.5em 0}
+@media (max-width:860px){.again{grid-template-columns:1fr}}
+
+/* slop teaser */
+.slopdoc{font-family:var(--serif);font-size:clamp(.95rem,1vw + .35rem,1.25rem);line-height:1.9}
+.slopdoc mark{background:linear-gradient(transparent 55%,var(--hl) 55%,var(--hl) 90%,transparent 90%);color:inherit;padding:0 .06em}
+.slopdoc .ct{font-family:var(--mono);font-size:.72em;color:#6a7285;display:block;margin-top:.8em}
+
+/* privacy */
+.acct{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8em}
+.acct .card{border-top:6px solid var(--line)}
+.acct .card.no{border-top-color:var(--red)}
+.acct .card.meh{border-top-color:var(--hl)}
+.acct .card.yes{border-top-color:var(--green)}
+.acct .card .v{font-size:clamp(1.3rem,2vw,1.9rem);font-weight:900;letter-spacing:-.03em}
+@media (max-width:760px){.acct{grid-template-columns:1fr}}
+.checks{display:grid;gap:.5em;margin-top:1.2em}
+.chk{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.2em 1em;align-items:start;background:var(--day-2);border-radius:12px;padding:.9em 1.1em;cursor:pointer;border:1.5px solid transparent;transition:border-color .2s}
+.chk:hover{border-color:var(--day-ink)}
+.chk input{width:1.3em;height:1.3em;margin:.15em 0 0;accent-color:var(--day-ink)}
+.chk .t{font-weight:800;letter-spacing:-.02em}
+.chk .d{grid-column:2;color:var(--day-mute);font-size:.9em;line-height:1.4}
+.chk:has(input:checked){border-color:var(--green);background:var(--green-soft)}
+.chkscore{margin-top:1em;font-family:var(--mono);font-size:.8em;color:var(--day-mute);letter-spacing:.06em}
+
+/* brain rot */
+.reps{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,3vw,48px);align-items:start}
+.reps ul{margin:0;padding-left:1.1em;color:var(--fog);font-size:1em;line-height:1.5;display:grid;gap:.6em}
+.reps ul b{color:var(--snow)}
+@media (max-width:860px){.reps{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero wrap" id="top">
+  <div class="part-tag"><i>5</i>What Can Go Wrong</div>
+  <h1 style="margin-top:.5em">The risks of <em>using AI.</em></h1>
+  <p class="lede">Four ways it goes wrong: <b>hallucinations</b>, <b>slop</b>, <b>privacy</b>, and <b>brain rot</b>. Two of them have already ended a career in our state’s own federal court.</p>
+  <div class="risks" style="margin-top:2.4em">
+    <a href="#hallucinations"><span class="k">Risk 1</span><span class="t">Hallucinations</span><span class="d">Real cases, fake quotes. Fake cases, perfect formatting.</span></a>
+    <a href="#slop"><span class="k">Risk 2</span><span class="t">Slop</span><span class="d">Text that sounds finished and says nothing.</span></a>
+    <a href="#privacy"><span class="k">Risk 3</span><span class="t">Privacy</span><span class="d">What did the contract promise, and who signed it?</span></a>
+    <a href="#brainrot"><span class="k">Risk 4</span><span class="t">Brain rot</span><span class="d">The risk that will actually get you.</span></a>
+  </div>
+</header>
+
+<!-- HALLUCINATIONS -->
+<section class="block wrap" id="hallucinations" aria-label="Hallucinations">
+  <div class="sec-head">
+    <div class="eyebrow"><span class="dot red" style="display:inline-block;margin-right:.6em;vertical-align:-.05em"></span>Risk 1 · Hallucinations</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">Don’t be the headline.</h2>
+    <p>A veteran Assistant U.S. Attorney in Raleigh let AI help write a brief. He didn’t check it. Within three months he was out of a job, and his name was all over the national legal press.</p>
+  </div>
+  <div class="story">
+    <div>
+      <div class="bignum rv" data-self data-range="0,0.3">17</div>
+      <div class="bignum-l">Years at the U.S. Attorney’s Office, EDNC</div>
+      <div class="lines">
+        <p class="rv" data-self data-range="0.05,0.3">Not a first-year associate.</p>
+        <p class="rv" data-self data-range="0.08,0.33">Not a solo practitioner cutting corners.</p>
+        <p class="rv mute" data-self data-range="0.11,0.36">A career government lawyer, in our state’s own federal court.</p>
+        <p class="rv yl" data-self data-range="0.14,0.39">Experience didn’t save him.</p>
+      </div>
+    </div>
+    <ol class="tl">
+      <li class="rv" data-self data-range="0,0.25"><time>Dec 2025</time><div><span class="t">Brief filed</span><p>Fabricated quotations and misstated holdings, attributed to real Fourth Circuit opinions. Opposing counsel caught it.</p></div></li>
+      <li class="rv" data-self data-range="0.03,0.28"><time>Jan 2026</time><div><span class="t">“A clerical error”</span><p>Asked to explain, he called it a draft filed by mistake. No mention of AI.</p></div></li>
+      <li class="rv alarm" data-self data-range="0.06,0.31"><time>Mar 10</time><div><span class="t">He admits using AI</span><p>The judge puts up slides of errors in his other recent filings.</p></div></li>
+      <li class="rv alarm" data-self data-range="0.09,0.34"><time>Days later</time><div><span class="t">Fired</span><p>He offered to retire. DOJ fired him instead.</p></div></li>
+      <li class="rv alarm" data-self data-range="0.12,0.37"><time>Apr 2026</time><div><span class="t">Public reprimand</span><p>Written order from the court, plus a DOJ OPR investigation.</p></div></li>
+    </ol>
+  </div>
+  <div class="bigquote rv" data-self data-range="0,0.3" style="margin-top:clamp(28px,5vh,52px)">
+    <span class="bar" aria-hidden="true"></span>
+    <blockquote>“The worst decision I’ve ever made in my 30‑year career.”<cite>Rudy Renfer, at the March 10 hearing. Source: Fivehouse v. U.S. Dep’t of Defense, No. 2:25-cv-41 (E.D.N.C. Apr. 2026) (order of public reprimand); ABA Journal (Mar. 11, 2026); Bloomberg Law.</cite></blockquote>
+  </div>
+  <a class="feature rv" data-self data-range="0,0.3" href="renfer-ai-warning.html">
+    <span><span class="k">The full story · scroll-driven</span><span class="t">Don’t Be the Headline</span><span class="d">The filing, the timeline, the hearing, the headlines, and what it means for a prosecutor who carries the State’s credibility.</span></span>
+    <span class="arr" aria-hidden="true">→</span>
+  </a>
+
+  <div class="again" style="margin-top:clamp(50px,9vh,100px)">
+    <div>
+      <div class="eyebrow">Four months later · same office</div>
+      <h2 class="rv" data-self data-range="-0.1,0.2" style="font-size:clamp(1.9rem,4vw,3.8rem);font-weight:900;letter-spacing:-.04em;margin-top:.3em">It happened again.</h2>
+      <div class="prose" style="margin-top:1em">
+        <p>In July 2026 the court asked a different AUSA for a copy of a case cited in a motion to dismiss. She searched PACER, Westlaw, and her own files, then told the court the truth.</p>
+        <p>Her best explanation: <b>a Google search</b>, at a time she didn’t know search engines were serving AI-generated results with “phantom” citations. The brief was filed in 2025; the office’s Westlaw cite-check requirement didn’t start until March 2026.</p>
+      </div>
+    </div>
+    <div>
+      <div class="doc rv-scale" data-self data-range="0,0.3">
+        <div class="hdr"><span>Thomas v. U.S. Dep’t of Justice, No. 5:25-cv-242 (E.D.N.C.)</span><span>Doc. 25 · filed 07/15/26</span></div>
+        <div><span class="cx">Bowers v. Transp. Sec. Admin., 2015 WL 3442014, at *2 (E.D. Va. May 27, 2015)</span></div>
+        <div class="big">This case does not exist.</div>
+        <div class="foot">Federal Defendants’ Response to Court Order (filed July 15, 2026).</div>
+      </div>
+      <div class="callout" style="margin-top:1em"><span>You don’t have to open a chatbot to be using AI.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FIVE HABITS -->
+<div class="day">
+<section class="block wrap" id="habits" aria-label="Five habits">
+  <div class="sec-head">
+    <div class="eyebrow">Before you sign anything</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">Five habits. Any one of them would have prevented both cases.</h2>
+  </div>
+  <ul class="list">
+    <li class="rv" data-self data-range="0.05,0.2"><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span><div><h3>Pull every case yourself.</h3><p>If a citation came from AI, a search engine, or a colleague, open the opinion in Westlaw, Lexis, or the court’s own site before it goes in a filing.</p></div></li>
+    <li class="rv" data-self data-range="0.08,0.23"><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span><div><h3>Find every quotation on the page.</h3><p>Real case, fake quote was the Renfer pattern. Search for the exact words. Confirm the pin cite exists.</p></div></li>
+    <li class="rv" data-self data-range="0.11,0.26"><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span><div><h3>Treat search-engine answers as AI.</h3><p>AI overviews sit on top of ordinary Google results. A starting point, never a source.</p></div></li>
+    <li class="rv" data-self data-range="0.14,0.29"><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span><div><h3>Run a cite-checker before filing.</h3><p>A Westlaw cite-check would have flagged the fake case. Make it a standing step, not a rescue.</p></div></li>
+    <li class="rv" data-self data-range="0.17,0.32"><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span><div><h3>If it happens, tell the whole truth the first time.</h3><p>“Clerical error” didn’t hold up. The hearing is what ended the career.</p></div></li>
+  </ul>
+  <div class="bigquote rv" data-self data-range="0,0.3" style="margin-top:clamp(28px,5vh,52px)">
+    <span class="bar" aria-hidden="true"></span>
+    <blockquote>“Always personally verify each quote or proposition with your eyes in an actual case or law or other valid source.”<cite>U.S. Attorney’s Office, E.D.N.C., guidance to staff, as quoted in the reprimand order</cite></blockquote>
+  </div>
+  <p class="mute" style="margin-top:1.4em;font-size:.9em;max-width:70ch">Interested in more lawyers misusing AI? <a href="https://kylebahr.netlify.app/2000/" target="_blank" rel="noopener">kylebahr.netlify.app/2000</a> tracks the cases.</p>
+</section>
+</div>
+
+<!-- SLOP -->
+<section class="block wrap" id="slop" aria-label="Slop">
+  <div class="sec-head">
+    <div class="eyebrow">Risk 2 · Slop</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">Text that sounds finished and says nothing.</h2>
+    <p>Slop is the writing a model produces when you give it nothing to work with. It is easy to spot once you know the tells, and the one tell that matters for us is <b>fabricated authority formatted perfectly</b>.</p>
+  </div>
+  <div class="split">
+    <div class="doc rv-scale" data-self data-range="0,0.3">
+      <div class="hdr"><span>Exhibit A · the introduction</span><span>Generated · 0.8 seconds</span></div>
+      <p class="slopdoc"><mark>In today’s rapidly evolving digital landscape,</mark> AI slop has emerged as a <mark>transformative force that is reshaping</mark> the way we think about content. <mark>It’s not just text; it’s a rich tapestry</mark> of words, woven together with <mark>purpose, passion, and absolutely no information.</mark> As legal professionals navigate this <mark>complex and ever-changing terrain,</mark> <mark>it is crucial to delve into the multifaceted nature</mark> of slop. <mark>Let’s dive in! 💡</mark><span class="ct">Specific facts, names, dates, or citations in this paragraph: none.</span></p>
+    </div>
+    <div>
+      <div class="prose">
+        <p>Read that paragraph in your most earnest voice, then count the facts. There are none. That is the pattern: <b>slop has no nouns you can check.</b> Real writing names a defendant, a date, a statute, a page.</p>
+        <p>The companion page walks the ten tells, each one committing the offense it describes, with a quiz and a machine that turns a plain sentence into slop.</p>
+      </div>
+      <a class="feature" href="ai-slop.html">
+        <span><span class="k">Interactive field guide</span><span class="t">Spot the Slop</span><span class="d">Ten tells, a six-question quiz, and the slop machine.</span></span>
+        <span class="arr" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY -->
+<div class="day">
+<section class="block wrap" id="privacy" aria-label="Privacy">
+  <div class="sec-head">
+    <div class="eyebrow">Risk 3 · Privacy</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">Not “is AI safe?” What did the contract promise, and who signed it?</h2>
+  </div>
+  <div class="eyebrow" style="margin-bottom:1em">Which account</div>
+  <div class="acct">
+    <div class="card no rv" data-self data-range="0,0.25"><span class="k">Free account</span><span class="v">Never.</span><p>Free consumer terms are not sufficient to protect confidential information. I’d go so far as to say you could get disbarred using one.</p></div>
+    <div class="card meh rv" data-self data-range="0.03,0.28"><span class="k">Paid personal account</span><span class="v">Legally sufficient, likely not permitted.</span><p>A paid account sufficiently protects your data, but it is still going to be against AOC policy.</p></div>
+    <div class="card yes rv" data-self data-range="0.06,0.31"><span class="k">Enterprise account</span><span class="v">The only option for case material.</span><p>Work AI should be done with an enterprise work account, through AOC or the Conference.</p></div>
+  </div>
+  <div class="eyebrow" style="margin-top:clamp(28px,5vh,52px);margin-bottom:.4em">What to check in any tool</div>
+  <p class="mute" style="max-width:60ch">Read the settings, then the contract. Tick each one you have confirmed for the tool in front of you.</p>
+  <div class="checks" id="checks">
+    <label class="chk"><input type="checkbox" id="c1"><span class="t">Training turned off</span><span class="d">Your inputs are not used to train the provider’s models.</span></label>
+    <label class="chk"><input type="checkbox" id="c2"><span class="t">Memory: know what it keeps between conversations</span><span class="d">Some tools remember across chats by default. Know what, and for how long.</span></label>
+    <label class="chk"><input type="checkbox" id="c3"><span class="t">Zero data retention</span><span class="d">Probably not an option, but sometimes it is. Ask.</span></label>
+    <label class="chk"><input type="checkbox" id="c4"><span class="t">Commercial contract, not consumer terms</span><span class="d">Commercial contracts are fine; free consumer terms are not.</span></label>
+    <label class="chk"><input type="checkbox" id="c5"><span class="t">Medical records stay out, regardless</span><span class="d">These tools are not HIPAA-compliant. Treat health records as off-limits no matter what the contract says.</span></label>
+  </div>
+  <div class="chkscore" id="chkscore" aria-live="polite">0 of 5 confirmed</div>
+  <div class="callout ink" style="margin-top:clamp(20px,3vh,32px)"><span class="k">Remember</span><span>Every door in is also a door out. Know what your tool is connected to before you put a case in it.</span></div>
+</section>
+</div>
+
+<!-- BRAIN ROT -->
+<section class="block wrap" id="brainrot" aria-label="Brain rot">
+  <div class="sec-head">
+    <div class="eyebrow">Risk 4 · Brain rot</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">The risk that will actually get you.</h2>
+  </div>
+  <div class="reps">
+    <div class="bigquote rv" data-self data-range="0,0.3">
+      <span class="bar" aria-hidden="true"></span>
+      <blockquote>“Why are you using AI to do basic issue spotting work that attorneys do every day?”<cite>Magistrate Judge Robert T. Numbers II, at the Renfer show-cause hearing</cite></blockquote>
+    </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom:.8em">Keep the reps</div>
+      <h3 style="font-size:clamp(1.4rem,2.4vw,2.2rem);font-weight:900;letter-spacing:-.03em;margin-bottom:.8em">Don’t let it do your issue-spotting.</h3>
+      <ul>
+        <li class="rv" data-self data-range="0,0.25">You learned to read a police report by <b>reading thousands of them</b>.</li>
+        <li class="rv" data-self data-range="0.03,0.28">A first-year with an AI screen on every file from day one <b>never builds that instinct</b>.</li>
+        <li class="rv" data-self data-range="0.06,0.31">The senior lawyer can use it safely; the office that skips the reps <b>can’t tell when it’s wrong</b>.</li>
+        <li class="rv" data-self data-range="0.09,0.34">Office policy question: <b>who gets the tool, and on what?</b></li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:clamp(28px,5vh,52px)"><span class="k">The balance</span><span>The advantages are real: faster understanding of a case, far more efficient retrieval. Keep the judgment yours.</span></div>
+</section>
+
+</main>
+<div id="pager"></div>
+<script src="site.js"></script>
+<script>
+(function(){
+  var boxes = document.querySelectorAll('#checks input'), score = document.getElementById('chkscore');
+  function upd(){ var n = 0; boxes.forEach(function(b){ if(b.checked) n++; }); score.textContent = n + ' of 5 confirmed' + (n === 5 ? ' · now read the contract anyway' : ''); }
+  boxes.forEach(function(b){ b.addEventListener('change', upd); });
+})();
+</script>
+</body>
+</html>

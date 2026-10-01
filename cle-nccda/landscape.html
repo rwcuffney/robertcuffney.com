@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Landscape · AI in Prosecution</title>
+<meta name="description" content="Part 2: the categories of legal AI, the companies and models behind it, and the doors a model uses to reach information it was never trained on.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Libre+Caslon+Text:ital,wght@0,400;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+.cats .card .ex{font-family:var(--serif);font-size:1.05em;color:var(--snow)}
+.day .cats .card .ex{color:var(--day-ink)}
+.players .tbl td:first-child{font-weight:800;font-size:1.05em}
+.players .model{display:inline-block;font-family:var(--mono);font-size:.86em;background:var(--ink-3);border-radius:6px;padding:.15em .5em;margin:.12em .2em .12em 0}
+.players .model.flag{background:var(--hl);color:var(--ink);font-weight:700}
+.players .plug{display:none}
+.players[data-plug="true"] .plug{display:table-cell}
+.players .plug .t{font-weight:700}
+.players .plug .sub{font-size:.85em}
+.players .none{color:var(--fog);font-style:italic}
+.legend{margin-top:.8em;display:flex;gap:1.2em;flex-wrap:wrap;font-family:var(--mono);font-size:.74em;color:var(--fog);letter-spacing:.06em}
+.legend i{display:inline-block;width:.9em;height:.9em;background:var(--hl);border-radius:2px;vertical-align:-.1em;margin-right:.4em}
+.val .tile .v{font-size:clamp(2.4rem,4.4vw,4.2rem);letter-spacing:-.05em}
+.val .tile .city{font-family:var(--mono);font-size:.78em;color:var(--day-mute);letter-spacing:.06em}
+.val .tile ul{margin:.6em 0 0;padding-left:1.1em;color:var(--day-mute);font-size:.9em;line-height:1.45;display:grid;gap:.25em}
+.val .tile .raise{font-family:var(--mono);font-size:.78em;color:var(--day-mute)}
+
+/* doors */
+.doors{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:clamp(20px,3vw,48px);align-items:start}
+.room{background:var(--ink-2);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.2vw,32px);display:grid;gap:1em;position:relative}
+.room .k{font-family:var(--mono);font-size:.74em;letter-spacing:.2em;text-transform:uppercase;color:var(--fog)}
+.room h3{font-size:clamp(1.5rem,2.4vw,2.4rem);font-weight:900;letter-spacing:-.03em}
+.room .fact{display:grid;gap:.15em;border-top:1px solid var(--line);padding-top:.8em}
+.room .fact b{font-weight:800}
+.room .fact span{color:var(--fog);font-size:.9em}
+.doorgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:.7em}
+.door{background:var(--ink-2);border:1.5px solid var(--line);border-radius:14px;padding:1em;text-align:left;cursor:pointer;display:grid;gap:.3em;transition:border-color .2s,background .2s;min-width:0}
+.door:hover{border-color:var(--fog)}
+.door[aria-pressed="true"]{border-color:var(--hl);background:linear-gradient(160deg,#2a2810,var(--ink-2) 65%)}
+.door .n{font-family:var(--mono);font-size:.72em;letter-spacing:.14em;text-transform:uppercase;color:var(--fog)}
+.door .t{font-weight:800;font-size:1.05em;letter-spacing:-.02em}
+.door .ico{width:1.6em;height:1.6em;border-radius:5px;background:var(--hl);display:block;margin-bottom:.3em;position:relative}
+.door .ico::after{content:"";position:absolute;right:.3em;top:50%;width:.22em;height:.22em;border-radius:50%;background:var(--ink)}
+.doorinfo{margin-top:1em;background:var(--paper);color:var(--paper-ink);border-radius:4px;padding:clamp(18px,2.2vw,30px);min-height:9em;display:grid;gap:.5em;box-shadow:0 30px 70px -30px rgba(0,0,0,.8)}
+.doorinfo .k{font-family:var(--mono);font-size:.74em;letter-spacing:.14em;text-transform:uppercase;color:#6a7285}
+.doorinfo h4{font-size:clamp(1.3rem,2vw,1.9rem);font-weight:800;letter-spacing:-.025em}
+.doorinfo p{font-family:var(--serif);font-size:1.05em;line-height:1.5}
+.doorinfo .ex{font-family:var(--mono);font-size:.86em;border-top:1px solid var(--paper-rule);padding-top:.7em;color:#4b5366}
+@media (max-width:860px){.doors{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero wrap" id="top">
+  <div class="part-tag"><i>2</i>The Landscape</div>
+  <h1 style="margin-top:.5em">Who makes it, what it is, and what’s <em>beyond the model.</em></h1>
+  <p class="lede">Four categories of legal AI, the companies and models underneath, and the <b>doors</b> a model uses to reach information it was never trained on.</p>
+</header>
+
+<!-- CATEGORIES -->
+<section class="block wrap" id="categories" aria-label="General categories of legal AI">
+  <div class="sec-head">
+    <div class="eyebrow">General categories of legal AI</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">Four kinds of tool.</h2>
+    <p>Foundation models, enterprise platforms, research tools, and bespoke builds. Most legal products are one of the last three sitting on top of the first.</p>
+  </div>
+  <div class="cards cats">
+    <div class="card rv" data-self data-range="0,0.25">
+      <span class="k">General purpose</span>
+      <h3>Foundation models</h3>
+      <p class="ex">Claude, ChatGPT, Gemini</p>
+      <p>Chatbots and the models behind them.</p>
+      <div class="best"><span class="k">Best for</span>Everyday drafting and analysis</div>
+    </div>
+    <div class="card rv" data-self data-range="0.03,0.28">
+      <span class="k">Platforms</span>
+      <h3>Enterprise tools</h3>
+      <p class="ex">Harvey, Legora</p>
+      <p>Legal platforms built on the big models.</p>
+      <div class="best"><span class="k">Best for</span>Firm-wide rollout with security controls</div>
+    </div>
+    <div class="card rv" data-self data-range="0.06,0.31">
+      <span class="k">Research</span>
+      <h3>Legal research tools</h3>
+      <p class="ex">Lexis+ AI, CoCounsel</p>
+      <p>AI added to the research databases lawyers already use.</p>
+      <div class="best"><span class="k">Best for</span>Finding and checking authority</div>
+    </div>
+    <div class="card rv" data-self data-range="0.09,0.34">
+      <span class="k">Custom built</span>
+      <h3>Bespoke tools</h3>
+      <p class="ex">Custom GPTs, agents</p>
+      <p>Tools built in-house or by a product owner around one workflow or one specific product.</p>
+      <div class="best"><span class="k">Best for</span>Repeatable tasks unique to specific use cases</div>
+    </div>
+  </div>
+</section>
+
+<!-- PLAYERS -->
+<section class="block wrap players" id="players" aria-label="The major AI players" data-plug="false">
+  <div class="sec-head">
+    <div class="eyebrow">The major AI players</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">Who makes it, what you chat with, and the models underneath.</h2>
+    <p>Lineups as of <b>September 2026</b>. These change every few weeks, so treat the model names as a snapshot.</p>
+  </div>
+  <div class="pills" style="margin-bottom:1em">
+    <button class="pill" type="button" id="plugToggle" aria-pressed="false">Show legal plug-ins</button>
+  </div>
+  <div class="tblwrap">
+    <table class="tbl">
+      <thead><tr><th>Company</th><th>Chatbot</th><th>Top models</th><th class="plug">Legal plug-in</th></tr></thead>
+      <tbody>
+        <tr><td>Anthropic</td><td>Claude</td><td><span class="model flag">Opus 5.5</span><span class="model">Sonnet 5.5</span><span class="model">Fable 5.1</span></td><td class="plug"><span class="t">Claude for Legal</span><span class="sub">May 2026 · 12 practice-area plug-ins and 20+ connectors</span></td></tr>
+        <tr><td>OpenAI</td><td>ChatGPT</td><td><span class="model flag">GPT-6 Astra</span><span class="model">GPT-6 Sol</span><span class="model">GPT-6 Luna</span></td><td class="plug"><span class="t">Astra for Law</span><span class="sub">Sept. 2026 · legal GPT-6 plus 26 partner plug-ins</span></td></tr>
+        <tr><td>Google</td><td>Gemini</td><td><span class="model flag">Gemini 3.1 Pro</span><span class="model">Gemini 3.8 Flash</span><span class="model">Gemini 3.1 Deep Think</span></td><td class="plug"><span class="t">Gemini Enterprise for Legal</span><span class="sub">Aug. 2026 · legal agents plus partner connectors</span></td></tr>
+        <tr><td>xAI</td><td>Grok</td><td><span class="model flag">Grok 4.7</span><span class="model">Grok 4.6</span></td><td class="plug"><span class="none">No legal-specific plug-in announced</span></td></tr>
+        <tr><td>Meta</td><td>Meta AI</td><td><span class="model flag">Muse Spark 1.3</span><span class="model">Muse Glimmer</span></td><td class="plug"><span class="none">No legal-specific plug-in announced</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="legend"><span><i aria-hidden="true"></i>Flagship model</span><span>Microsoft Copilot runs on partner models (OpenAI, Anthropic) plus Microsoft’s own MAI models.</span></div>
+</section>
+
+<!-- LEGAL AI PLAYERS -->
+<div class="day">
+<section class="block wrap val" id="legal-players" aria-label="The legal AI players">
+  <div class="sec-head">
+    <div class="eyebrow">The legal AI players</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">Built just for lawyers, on top of the big models, and valued accordingly.</h2>
+    <p>Both run on foundation models from the companies above. Private-market valuations from each company’s latest funding round, as of September 2026.</p>
+  </div>
+  <div class="tiles" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))">
+    <div class="tile rv" data-self data-range="0,0.25">
+      <span class="k">Harvey</span><span class="city">San Francisco</span>
+      <span class="v">$15.5B</span>
+      <span class="raise">Sept. 2026 · $550M raise</span>
+      <ul><li>80% of the Am Law 100</li><li>5 of the Fortune 10</li><li>Revenue past $350M</li></ul>
+    </div>
+    <div class="tile rv" data-self data-range="0.04,0.29">
+      <span class="k">Legora</span><span class="city">Stockholm</span>
+      <span class="v">$5.55B</span>
+      <span class="raise">Mar. 2026 · $550M Series D · reported in talks at ~$8.5B</span>
+      <ul><li>Over half of the Am Law 50</li><li>2,100+ firms and legal teams</li><li>$200M+ annual revenue</li></ul>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- BEYOND THE MODEL -->
+<section class="block wrap" id="beyond" aria-label="Beyond the model">
+  <div class="sec-head">
+    <div class="eyebrow">Beyond the model</div>
+    <h2 class="rv" data-self data-range="-0.1,0.2">The model is the engine. These are the doors.</h2>
+    <p>On its own, a model is smart but sealed in a room. Everything useful it does with <b>your</b> case comes through one of six doors. Click a door to see what it opens.</p>
+  </div>
+  <div class="doors">
+    <div class="room rv" data-self data-range="0,0.25">
+      <span class="k">The model alone</span>
+      <h3>Smart, but sealed in a room.</h3>
+      <div class="fact"><b>Knows only its training data</b><span>Frozen at a cutoff date; nothing since.</span></div>
+      <div class="fact"><b>Has never seen your file</b><span>No discovery, no police reports, no local rules.</span></div>
+      <div class="fact"><b>Fills gaps with confidence</b><span>Missing facts become plausible guesses: hallucinations.</span></div>
+    </div>
+    <div>
+      <div class="doorgrid" id="doorgrid" role="group" aria-label="Six doors"></div>
+      <div class="doorinfo" id="doorinfo" aria-live="polite"></div>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:clamp(28px,5vh,52px)"><span class="k">Remember</span><span>Every door in is also a door out. Know what your tool is connected to before you put a case in it.</span></div>
+</section>
+
+</main>
+<div id="pager"></div>
+<script src="site.js"></script>
+<script>
+(function(){
+  var sec = document.getElementById('players'), tg = document.getElementById('plugToggle');
+  tg.addEventListener('click', function(){
+    var on = tg.getAttribute('aria-pressed') !== 'true';
+    tg.setAttribute('aria-pressed', on); sec.setAttribute('data-plug', on);
+    tg.textContent = on ? 'Hide legal plug-ins' : 'Show legal plug-ins';
+  });
+
+  var DOORS = [
+    {t:'Your prompt & uploads', d:'What you type, paste, or attach. The simplest door, and the one you control completely.', ex:'“Here is the incident report. Build a timeline.”'},
+    {t:'Web search', d:'Live look-ups of current information. Useful, but treat results like a Google answer: verify.', ex:'A search result is a lead, never a source.'},
+    {t:'Connectors', d:'Secure links to other systems: email, SharePoint, Westlaw, case management. The AI reads, and sometimes acts, inside them.', ex:'“Find every email from the detective on this case.”'},
+    {t:'Skills', d:'Saved instructions plus reference files (statutes, jury instructions) the AI loads only when the task calls for it.', ex:'A written procedure the whole office can reuse.'},
+    {t:'Projects & knowledge bases', d:'A curated library the AI searches before answering, so it cites your documents instead of guessing.', ex:'Your brief bank, local rules, and office policies.'},
+    {t:'Plug-ins & agents', d:'Bundles of skills and connectors. Agents chain the steps together and work on their own.', ex:'One install that brings the library, the skills, and the connections together.'}
+  ];
+  var grid = document.getElementById('doorgrid'), info = document.getElementById('doorinfo');
+  DOORS.forEach(function(d,i){
+    var b = document.createElement('button');
+    b.className = 'door'; b.type = 'button'; b.setAttribute('aria-pressed', i === 0);
+    b.innerHTML = '<span class="ico" aria-hidden="true"></span><span class="n">Door ' + (i+1) + '</span><span class="t">' + d.t + '</span>';
+    b.addEventListener('click', function(){ show(i); });
+    grid.appendChild(b);
+  });
+  function show(i){
+    grid.querySelectorAll('.door').forEach(function(b,j){ b.setAttribute('aria-pressed', j === i); });
+    var d = DOORS[i];
+    info.innerHTML = '<span class="k">Door ' + (i+1) + ' of 6</span><h4>' + d.t + '</h4><p>' + d.d + '</p><div class="ex">' + d.ex + '</div>';
+  }
+  show(0);
+})();
+</script>
+</body>
+</html>
